@@ -1,5 +1,15 @@
 source 'https://rubygems.org'
 
+# Web Application
+gem 'puma', '~> 5'
+gem 'roda', '~> 3'
+gem 'slim', '~> 4'
+
+gem 'bootstrap', '~> 5.2.2'
+
+# Debugging
+gem 'pry'
+
 # Validation
 gem 'dry-struct', '~> 1'
 gem 'dry-types', '~> 1'

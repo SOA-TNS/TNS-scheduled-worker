@@ -10,7 +10,10 @@ require 'minitest/rg'
 require 'vcr'
 require 'webmock'
 
-require_relative '../lib/rgt.rb'
+require_relative '../require_app'
+require_app
+
+
 CONFIG = YAML.safe_load(File.read('config/secrets.yml'))
 RGT_TOKEN=CONFIG['api_key']
 CORRECT = YAML.safe_load(File.read('spec/fixtures/rgt_results.yml'))
