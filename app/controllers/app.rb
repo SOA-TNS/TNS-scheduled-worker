@@ -6,8 +6,9 @@ require 'slim'
 module CodePraise
   class App < Roda
     plugin :render, engine: 'slim', views: 'app/views'
+    plugin :assets, css: 'style.css', path: 'app/views/assets'
     plugin :common_logger, $stderr
-
+    plugin :halt
     
     route do |routing|
         response['Content-Type'] = 'text/html; charset=utf-8'
