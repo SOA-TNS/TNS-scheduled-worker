@@ -1,6 +1,12 @@
 AllCops:
   TargetRubyVersion: 3.1
   NewCops: enable
+  Exclude:
+    - '_snippets/**/*'
+  Include:
+    - 'Gemfile'
+    - 'Rakefile'
+    - '**/*.rb'
 
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
@@ -20,9 +26,10 @@ Lint/Void:
   Enabled: false
 
 Metrics/BlockLength:
-  Max: 36
+  Enabled: true
   Exclude:
-    - spec/**/*.rb
+    - 'spec/**/*'
+    - 'Rakefile'
 
 Metrics/BlockNesting:
   Max: 2
@@ -64,3 +71,8 @@ Style/TrailingCommaInArrayLiteral:
 
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: 'comma'
+
+Style/HashSyntax:
+  Enabled: true
+  Exclude:
+    - 'Rakefile'
