@@ -152,19 +152,19 @@ GEM
     rexml (3.2.5)
     roda (3.61.0)
       rack
-    rspec (3.11.0)
-      rspec-core (~> 3.11.0)
-      rspec-expectations (~> 3.11.0)
-      rspec-mocks (~> 3.11.0)
-    rspec-core (3.11.0)
-      rspec-support (~> 3.11.0)
-    rspec-expectations (3.11.1)
+    rspec (3.12.0)
+      rspec-core (~> 3.12.0)
+      rspec-expectations (~> 3.12.0)
+      rspec-mocks (~> 3.12.0)
+    rspec-core (3.12.0)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.11.0)
-    rspec-mocks (3.11.1)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.11.0)
-    rspec-support (3.11.1)
+      rspec-support (~> 3.12.0)
+    rspec-support (3.12.0)
     rubocop (0.7.2)
       rainbow (>= 1.1.4)
     ruby_parser (3.19.1)
@@ -177,7 +177,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sequel (5.61.0)
+    sequel (5.62.0)
     sexp_processor (4.16.1)
     simplecov (0.16.1)
       docile (~> 1.1)
@@ -220,7 +220,7 @@ GEM
       webrick (~> 1.7.0)
     yardstick (0.9.9)
       yard (~> 0.8, >= 0.8.7.2)
-    zeitwerk (2.6.1)
+    zeitwerk (2.6.4)
 
 PLATFORMS
   x86_64-linux

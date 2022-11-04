@@ -2,17 +2,17 @@
 require_relative '../entities/rgt_entities'
 require_relative '../gateways/rgt_api'
 
-module CodePraise
-  module GoogleTrend
+module GoogleTrend
+  module Gt
     class TrendMapper
-      def initialize(name, gateway_class = GoogleTrend::Api)
+      def initialize(name, gateway_class = Gt::Api)
         @name = name
         @gateway_class = gateway_class
         @gateway = @gateway_class.new(@name)
       end
 
       def get_rgt
-        rgt = @gateway.get_jason
+        rgt = @gateway.jason
         build_entity(rgt)
       end
 
@@ -25,7 +25,7 @@ module CodePraise
           @rgt = rgt
         end
         def build_entity
-          CodePraise::Entity::RgtEntity.new(
+          GoogleTrend::Entity::RgtEntity.new(
             query:,
             time_series:
           )
@@ -43,7 +43,3 @@ module CodePraise
     end
   end
 end
-
-print(CodePraise::GoogleTrend::TrendMapper.new('TSMC').get_rgt.query)
-print("\n")
-print(CodePraise::GoogleTrend::TrendMapper.new('TSMC').get_rgt.time_series)
