@@ -8,10 +8,7 @@ Sequel.migration do
       primary_key :id
       foreign_key :query, :gtvalue
 
-      Integer     :id, unique: true
-      String      :query, unique: true, null: false
       
-
       DateTime :created_at
       DateTime :processed_at
     end
