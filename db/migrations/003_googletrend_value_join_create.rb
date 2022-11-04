@@ -5,9 +5,10 @@ require 'sequel'
 Sequel.migration do
   change do
     create_table(:googletrend_values) do
-      primary_key [:stock_id, :value_id] # rubocop:disable Style/SymbolArray
-      foreign_key :stock_id, :stock
+      primary_key [:value_id, :stock_id] # rubocop:disable Style/SymbolArray
       foreign_key :value_id, :gtvalues
+      foreign_key :stock_id, :stock
+      
 
       index [:stock_id, :query] # rubocop:disable Style/SymbolArray
     end
