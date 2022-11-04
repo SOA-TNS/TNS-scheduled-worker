@@ -6,9 +6,8 @@ Sequel.migration do
   change do
     create_table(:gtvalues) do
       primary_key :id
-      
+      foreign_key :query, :stock
 
-      String      :query, unique: true, null: false
       Integer     :values, null: false
       DateTime    :date
 
