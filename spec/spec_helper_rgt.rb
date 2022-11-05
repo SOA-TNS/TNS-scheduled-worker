@@ -15,4 +15,5 @@ require 'webmock'
 require_relative '../require_app'
 require_app
 
+RGT_TOKEN = GoogleTrend::App.config.RGT_TOKEN
 CORRECT = YAML.safe_load(File.read('spec/fixtures/rgt_results.yml'))
