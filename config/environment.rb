@@ -29,6 +29,5 @@ module GoogleTrend
 
       def self.DB = DB # rubocop:disable Naming/MethodName
     end
-    # rubocop:enable Lint/ConstantDefinitionInBlock
   end
 end
