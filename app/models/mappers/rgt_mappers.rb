@@ -5,13 +5,15 @@ require_relative '../gateways/rgt_api'
 module GoogleTrend
   module Gt
     class TrendMapper
-      def initialize(name, gateway_class = Gt::Api)
+
+      def initialize(name, gateway_class = Gt::RgtApi)
+        @config = YAML.safe_load(File.read('secrets.yml')) 
         @name = name
         @gateway_class = gateway_class
-        @gateway = @gateway_class.new(@name)
+        @gateway = @gateway_class.new(@config, @name)
       end
 
-      def get_rgt
+      def find
         rgt = @gateway.jason
         build_entity(rgt)
       end
@@ -35,7 +37,7 @@ module GoogleTrend
         end
         def time_series
           data_hash = {}
-          data = @rgt['interest_over_time']['timeline_data'] # array
+          data = @rgt['interest_over_time']['timeline_data']
           data.each{ |x| data_hash[ x['date'] ] = x['values'][0]['extracted_value'] }
           data_hash
         end
