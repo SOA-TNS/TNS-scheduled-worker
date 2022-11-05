@@ -1,13 +1,11 @@
 # frozen_string_literal: true
-require_relative '../entities/rgt_entities'
-require_relative '../gateways/rgt_api'
 
 module GoogleTrend
   module Gt
     class TrendMapper
 
-      def initialize(name, gateway_class = Gt::RgtApi)
-        @config = YAML.safe_load(File.read('secrets.yml')) 
+      def initialize(name, config, gateway_class = Gt::RgtApi)
+        @config = config
         @name = name
         @gateway_class = gateway_class
         @gateway = @gateway_class.new(@config, @name)

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'gt_value'
 require_relative 'stock'
 
 module GoogleTrend

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'yaml'
+require 'google_search_results'
 require 'http'
 
 module GoogleTrend
@@ -9,16 +10,17 @@ module GoogleTrend
       API_PROJECT_ROOT = 'https://serpapi.com/search.json?'
       ENGINE = "google_trends" #1
       DATA_TYPE = "TIMESERIES" #3
-    
-      attr_reader :parameter
+
+      attr_reader :name
+      attr_reader :apikey
 
       def initialize(config, name)
         @name = name #2
-        @apikey = config['api_key'] #4
+        @apikey = config #4
       end
 
       def jason
-        Request.new(API_PROJECT_ROOT).rgt.parse
+        Request.new(API_PROJECT_ROOT).rgt(@name, @apikey).parse
       end
 
       #get data by url
@@ -27,8 +29,9 @@ module GoogleTrend
           @resource_root = resource_root
         end
 
-        def rgt
-          get("#{@resource_root}engine=#{ENGINE}&q=#{@name}&data_type=#{DATA_TYPE}&api_key=#{@apikey}")
+        def rgt(name, apikey)
+          get("#{@resource_root}engine=#{ENGINE}&q=#{name}&data_type=#{DATA_TYPE}&api_key=#{apikey}")
+          # https://serpapi.com/search.json?engine=google_trends&q="TSMC"&data_type="TIMESERIES"&api_key=da4bf99b1c382584e582032bcdb8bc698e024a83c5b9d9f44b1c24dd9d7fcbbc
         end
 
         def get(url)

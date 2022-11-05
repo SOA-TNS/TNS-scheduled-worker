@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'gtvalues'
-
 module GoogleTrend
   module Repository
     # Repository for Project Entities
@@ -28,7 +26,6 @@ module GoogleTrend
       end
 
       def self.create(entity)
-        raise 'Stock already exists' if find(entity)
 
         db_stock = PersistStock.new(entity).create_stock
         rebuild_entity(db_stock)
@@ -54,7 +51,6 @@ module GoogleTrend
         def create_stock
           Database::StockOrm.create(@entity.to_attr_hash)
         end
-
       end
     end
   end

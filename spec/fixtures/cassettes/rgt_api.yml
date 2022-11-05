@@ -610,4 +610,126 @@ http_interactions:
           }
         }
   recorded_at: Sat, 22 Oct 2022 08:08:38 GMT
+- request:
+    method: get
+    uri: https://serpapi.com/search.json?api_key=&data_type=TIMESERIES&engine=google_trends&q=
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - serpapi.com
+      User-Agent:
+      - http.rb/5.1.0
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Sat, 05 Nov 2022 15:44:36 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Cf-Ray:
+      - 7656b633ad87afaf-NRT
+      Cache-Control:
+      - no-cache
+      Vary:
+      - Accept-Encoding
+      Cf-Cache-Status:
+      - MISS
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - db33526a-3753-43b2-97e6-32de1835244c
+      X-Runtime:
+      - '0.007160'
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - cloudflare
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "error": "Invalid API key. Your API key should be here: https://serpapi.com/manage-api-key"
+        }
+  recorded_at: Sat, 05 Nov 2022 15:44:36 GMT
+- request:
+    method: get
+    uri: https://serpapi.com/search.json?api_key=&data_type=TIMESERIES&engine=google_trends&q=TSMC
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Connection:
+      - close
+      Host:
+      - serpapi.com
+      User-Agent:
+      - http.rb/5.1.0
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Sat, 05 Nov 2022 15:51:17 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Cf-Ray:
+      - 7656bffe1838f6d1-NRT
+      Cache-Control:
+      - no-cache
+      Vary:
+      - Accept-Encoding
+      Cf-Cache-Status:
+      - EXPIRED
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Download-Options:
+      - noopen
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Request-Id:
+      - b72639d4-a4cc-4f85-98bf-60215cbeabc7
+      X-Runtime:
+      - '0.006288'
+      X-Xss-Protection:
+      - 1; mode=block
+      Server:
+      - cloudflare
+      Alt-Svc:
+      - h3=":443"; ma=86400, h3-29=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "error": "Invalid API key. Your API key should be here: https://serpapi.com/manage-api-key"
+        }
+  recorded_at: Sat, 05 Nov 2022 15:51:17 GMT
 recorded_with: VCR 6.1.0

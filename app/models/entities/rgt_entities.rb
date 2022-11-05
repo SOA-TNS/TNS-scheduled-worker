@@ -10,6 +10,10 @@ module GoogleTrend
   
       attribute :query, Strict::String
       attribute :time_series, Strict::Hash   #Array
+
+      def to_attr_hash
+        to_hash.except(:id)
+      end
     end
   end
 end
