@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-require_relative 'stocks'
-require_relative 'values'
+require_relative 'gt_value'
+require_relative 'stock'
 
 module GoogleTrend
   module Repository
     # Finds the right repository for an entity object or class
     module For
-      ENTITY_REPOSITORY = {
-        Entity::RgtEntity => RgtEntities,
+      ENTITY_REPOSITORY = { 
+        Entity::RgtEntity => Stock
       }.freeze
 
-      def self.class(entity_class)
-        ENTITY_REPOSITORY[entity_class]
+      def self.klass(entity_klass)
+        ENTITY_REPOSITORY[entity_klass]
       end
 
       def self.entity(entity_object)
