@@ -5,7 +5,7 @@ require 'roda'
 require 'sequel'
 require 'yaml'
 
-module CodePraise
+module GoogleTrend
   # Configuration for the App
   class App < Roda
     plugin :environments
@@ -26,6 +26,7 @@ module CodePraise
 
       # Database Setup
       DB = Sequel.connect(ENV.fetch('DATABASE_URL'))
+
       def self.DB = DB # rubocop:disable Naming/MethodName
     end
     # rubocop:enable Lint/ConstantDefinitionInBlock

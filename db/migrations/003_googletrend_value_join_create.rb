@@ -10,7 +10,7 @@ Sequel.migration do
       foreign_key :stock_id, :stock
       
 
-      index [:stock_id, :query] # rubocop:disable Style/SymbolArray
+      index [:value_id, :stock_id] # rubocop:disable Style/SymbolArray
     end
   end
 end

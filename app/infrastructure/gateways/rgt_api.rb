@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require 'yaml'
-require 'google_search_results' 
 require 'http'
 
 module GoogleTrend
