@@ -7,10 +7,10 @@ module GoogleTrend
     # Object-Relational Mapper for Members
     class ValueOrm < Sequel::Model(:gtvalues)
       many_to_one :search_query,
-                  class: :'CodePraise::Database::StockOrm',
+                  class: :'GoogleTrend::Database::StockOrm',
 
       many_to_many :queries,
-                   class: :'CodePraise::Database::StockOrm',
+                   class: :'GoogleTrend::Database::StockOrm',
                    join_table: :googletrend_values,
                    left_key: :value_id, right_key: :stock_id
 
