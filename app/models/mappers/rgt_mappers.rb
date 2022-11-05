@@ -1,11 +1,13 @@
 # frozen_string_literal: true
+require_relative '../entities/rgt_entities'
+require_relative '../gateways/rgt_api'
 
 module GoogleTrend
   module Gt
     class TrendMapper
 
-      def initialize(name, config, gateway_class = Gt::RgtApi)
-        @config = config
+      def initialize(name, gateway_class = Gt::RgtApi)
+        @config = YAML.safe_load(File.read('secrets.yml')) 
         @name = name
         @gateway_class = gateway_class
         @gateway = @gateway_class.new(@config, @name)
@@ -34,12 +36,15 @@ module GoogleTrend
           @rgt['search_parameters']['q']
         end
         def time_series
-          data_hash = {}
-          data = @rgt['interest_over_time']['timeline_data']
-          data.each{ |x| data_hash[ x['date'] ] = x['values'][0]['extracted_value'] }
-          data_hash
+          data = @rgt['interest_over_time']
         end
       end
     end
   end
 end
+
+print(GoogleTrend::Gt::TrendMapper.new('TSMC').find)
+print("\n") 
+print(GoogleTrend::Gt::TrendMapper.new('TSMC').find.time_series)
+#print("\n") 
+#print(GoogleTrend::Gt::TrendMapper.new('TSMC').find.time_series)
