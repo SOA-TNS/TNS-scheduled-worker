@@ -15,7 +15,6 @@ describe 'Tests RGT API library' do
 
   describe 'Stock information' do
     before do
-      puts RGT_TOKEN
       @rgt = GoogleTrend::Gt::TrendMapper
         .new('TSMC', RGT_TOKEN)
         .find
@@ -27,12 +26,12 @@ describe 'Tests RGT API library' do
 
  
 
-    it 'BAD: should raise exception on incorrect query' do
+    it 'BAD: should raise exception when unauthorized' do
       _(proc do
         GoogleTrend::Gt::TrendMapper
-          .new('', RGT_TOKEN)
+          .new('TSMC','BAD_TOKEN')
           .find
-      end).must_raise GoogleTrend::Gt::RgtApi::Response::NotFound
+      end).must_raise GoogleTrend::Gt::RgtApi::Response::Unauthorized
     end
 
 
