@@ -3,6 +3,7 @@
 require_relative 'spec_helper_rgt'
 require_relative 'helpers/vcr_helper'
 
+
 describe 'Tests RGT API library' do
   before do
     VcrHelper.configure_vcr_for_google_trend
@@ -49,7 +50,7 @@ describe 'Tests RGT API library' do
 
     it 'HAPPY: should identify values' do
       _(@rgt.time_series).wont_be_nil
-      _(@rgt.time_series).must_equal CORRECT['interest_over_time']
+      _(@rgt.time_series).must_equal time_value(CORRECT)
     end
     end
   end
