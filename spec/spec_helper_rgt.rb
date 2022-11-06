@@ -12,9 +12,9 @@ require 'webmock'
 require_relative '../require_app'
 require_app
 
-def time_value
+def time_value(file)
     l = []
-    a = @rgt["interest_over_time"] #hash
+    a = file["interest_over_time"] #hash
     b = a["timeline_data"] #array
     b.each{ |data| l << "#{data["date"]} => #{data["values"][0]["value"]}"  }
     l.to_s

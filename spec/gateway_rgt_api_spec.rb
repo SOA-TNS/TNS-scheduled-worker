@@ -16,7 +16,7 @@ describe 'Tests RGT API library' do
   describe 'Stock information' do
     before do
       @rgt = GoogleTrend::Gt::TrendMapper
-        .new('TSMC', RGT_TOKEN)
+        .new('TSLA', RGT_TOKEN)
         .find
     end
 
@@ -39,7 +39,7 @@ describe 'Tests RGT API library' do
   describe 'popular values in information' do
     before do
       @rgt = GoogleTrend::Gt::TrendMapper
-        .new('TSMC', RGT_TOKEN)
+        .new('TSLA', RGT_TOKEN)
         .find
     end
 
