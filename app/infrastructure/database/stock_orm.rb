@@ -8,7 +8,7 @@ module GoogleTrend
     class StockOrm < Sequel::Model(:stock)
       one_to_many :history_trend,
                   class: :'GoogleTrend::Database::ValueOrm',
-                  key: :query
+                  key: :query_id
 
       many_to_many :trends,
                    class: :'GoogleTrend::Database::ValueOrm',

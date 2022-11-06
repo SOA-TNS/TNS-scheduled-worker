@@ -16,7 +16,7 @@ describe 'Tests RGT API library' do
   describe 'Stock information' do
     before do
       @rgt = GoogleTrend::Gt::TrendMapper
-        .new('TSMC', RGT_TOKEN)
+        .new('TSLA', RGT_TOKEN)
         .find
     end
 
@@ -24,22 +24,19 @@ describe 'Tests RGT API library' do
       _(@rgt.query).must_equal CORRECT['search_parameters']['q']
     end
 
- 
-
     it 'BAD: should raise exception when unauthorized' do
       _(proc do
         GoogleTrend::Gt::TrendMapper
-          .new('TSMC','BAD_TOKEN')
+          .new('TSLA','BAD_TOKEN')
           .find
       end).must_raise GoogleTrend::Gt::RgtApi::Response::Unauthorized
     end
-
-
+  end
 
   describe 'popular values in information' do
     before do
       @rgt = GoogleTrend::Gt::TrendMapper
-        .new('TSMC', RGT_TOKEN)
+        .new('TSLA', RGT_TOKEN)
         .find
     end
 
@@ -51,7 +48,6 @@ describe 'Tests RGT API library' do
     it 'HAPPY: should identify values' do
       _(@rgt.time_series).wont_be_nil
       _(@rgt.time_series).must_equal time_value(CORRECT)
-    end
     end
   end
 end

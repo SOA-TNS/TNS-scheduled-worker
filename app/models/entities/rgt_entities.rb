@@ -8,8 +8,9 @@ module GoogleTrend
     class RgtEntity < Dry::Struct
       include Dry.Types
   
-      attribute :query, Strict::String
-      attribute :time_series, Strict::Hash   #Array
+      attribute :id,        Integer.optional
+      attribute :query,     Strict::String
+      attribute :time_series, Strict::String   #Array
 
       def to_attr_hash
         to_hash.except(:id)

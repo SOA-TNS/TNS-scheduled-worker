@@ -5,14 +5,14 @@ module GoogleTrend
     # Repository for Project Entities
     class Stock
       def self.all # return an array
-        Database::StockOrm.all.map { |db_stock| rebuild_entity(db_stock) }
+        Database::ValueOrm.all.map { |db_stock| rebuild_entity(db_stock) }
       end
 
       def self.find_full_name(stock_name) #not sure
         # SELECT * FROM `projects` LEFT JOIN `members`
         # ON (`members`.`id` = `projects`.`owner_id`)
         # WHERE ((`username` = 'owner_name') AND (`name` = 'project_name'))
-        db_stock = Database::StockOrm
+        db_stock = Database::ValueOrm
           .left_join(:gtvalues, id: :query) # ?
           .where(query: stock_name)
           .first
@@ -21,7 +21,7 @@ module GoogleTrend
       end
 
       def self.find_id(id)
-        db_record = Database::StockOrm.first(id:) 
+        db_record = Database::ValueOrm.first(id:) 
         rebuild_entity(db_record)
       end
 
@@ -35,9 +35,11 @@ module GoogleTrend
       def self.rebuild_entity(db_record)
         return nil unless db_record
 
+        puts(db_record.to_hash)
         Entity::RgtEntity.new(
           db_record.to_hash.merge(
-            time_series: db_record.history_trend
+            query: db_record.to_hash[:query]
+            #time_series: 
           )
         )
       end
@@ -49,7 +51,13 @@ module GoogleTrend
         end
 
         def create_stock
-          Database::StockOrm.create(@entity.to_attr_hash)
+        #puts(@entity.to_attr_hash)
+        #puts(@entity.to_attr_hash[:query].class)
+        #puts(@entity.to_attr_hash[:time_series].class)
+        #puts(@entity.to_attr_hash)
+        #puts(@entity.to_attr_hash[:query].class)
+        #puts(@entity.to_attr_hash[:time_series].to_s)
+          Database::ValueOrm.create(@entity.to_attr_hash)
         end
       end
     end

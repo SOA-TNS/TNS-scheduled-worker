@@ -6,14 +6,14 @@ Sequel.migration do
   change do
     create_table(:gtvalues) do
       primary_key :id
-      foreign_key :query, :stock
+      foreign_key :query_id, :stock
 
-      String      :stock_name, unique: true, null: false
-      Integer     :values, null: false
+      String      :query
+      String      :time_series
       DateTime    :date
 
       DateTime :created_at
-      DateTime :processed_at
+      DateTime :updated_at
     end
   end
 end
