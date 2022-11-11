@@ -10,19 +10,17 @@ module GoogleTrend
       end
       
       def MA3
-        extracted_value = DataPreprocessing().extracted_value
         sum = 0 
         3.times do |i|
-          sum += extracted_value[i]
+          sum += @extracted_value[i]
         end
         sum/3
       end
 
       def MA18
-        extracted_value = DataPreprocessing().extracted_value
         sum = 0 
         18.times do |i|
-          sum += extracted_value[i]
+          sum += @extracted_value[i]
         end
         sum/18
       end
@@ -31,7 +29,6 @@ module GoogleTrend
         risk = MA18() > MA3() ? false : true
         risk
       end
-
     end
   end
 end
