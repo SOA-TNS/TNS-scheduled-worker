@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby File.read(".ruby_version").strip
 
 # Configuration and Utilities
 gem 'figaro', '~> 1.2'
@@ -35,6 +36,10 @@ end
 
 # Debugging
 gem 'pry'
+
+group :production do
+  gem 'pg'
+end
 
 # Testing
 group :test do

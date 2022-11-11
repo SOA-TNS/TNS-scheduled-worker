@@ -1,78 +1,46 @@
+---
+# Apply latest Ruby style guide and newly introduced cops
 AllCops:
   TargetRubyVersion: 3.1
   NewCops: enable
-  Exclude:
-    - '_snippets/**/*'
   Include:
     - 'Gemfile'
     - 'Rakefile'
     - '**/*.rb'
+  Exclude:
+    - '_snippets/**/*'
+    - 'app/infrastructure/git/repostore/**/*'
+  Include:
+  - 'Gemfile'
+  - 'Rakefile'
+  - '**/*.rb'
 
-Layout/AccessModifierIndentation:
-  EnforcedStyle: outdent
-
-Layout/LineLength:
-  AllowURI: true
-  Enabled: false
-
-Layout/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: no_space
-
-Layout/MultilineMethodCallIndentation:
-  Enabled: true
-  EnforcedStyle: indented
-
-Lint/Void:
-  Enabled: false
-
+# Ignore block length where unavoidable (e.g., frameworks using blocks)
 Metrics/BlockLength:
   Enabled: true
   Exclude:
     - 'spec/**/*'
-    - 'Rakefile'
+    - Rakefile
+    - app/controllers/**/*.rb # Roda's nested controllers require large blocks
+    - spec/**/* # Minitest's nested test structure requires large blocks
+    - Rakefile # Rake namespaces produce large blocks
 
-Metrics/BlockNesting:
-  Max: 2
-
-Metrics/MethodLength:
-  CountComments: false
-  Max: 10
-
-Metrics/ModuleLength:
-  Max: 150 # TODO: Lower to 100
-
-Metrics/ParameterLists:
-  Max: 5
-  CountKeywordArgs: true
-
-Style/CollectionMethods:
+# See: https://www.rubydoc.info/gems/rubocop/RuboCop/Cop/Layout/MultilineMethodCallIndentation
+Layout/MultilineMethodCallIndentation:
   Enabled: true
-  PreferredMethods:
-    map:      'collect'
-    map!:     'collect!'
-    reduce:   'inject'
-    find:     'detect'
-    find_all: 'select'
+  EnforcedStyle: indented
 
-Style/Documentation:
-  Enabled: false
-
-Style/DoubleNegation:
-  Enabled: false
-
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-Style/NumericPredicate:
-  Enabled: false
-
-Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: 'comma'
-
-Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: 'comma'
+Layout/HashAlignment:
+  Enabled: true
+  EnforcedHashRocketStyle: table
 
 Style/HashSyntax:
   Enabled: true
   Exclude:
-    - 'Rakefile'
+    - Rakefile
+
+Style/SymbolArray:
+  Enabled: true
+  Exclude:
+    - Rakefile
+    - app/infrastructure/database/migrations/*.rb

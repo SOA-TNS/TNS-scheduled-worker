@@ -115,6 +115,7 @@ GEM
     parser (3.1.2.1)
       ast (~> 2.4.1)
     path_expander (1.1.1)
+    pg (1.4.4)
     popper_js (2.11.6)
     pry (0.14.1)
       coderay (~> 1.1)
@@ -238,6 +239,7 @@ DEPENDENCIES
   jruby-openssl
   minitest (~> 5)
   minitest-rg (~> 5)
+  pg
   pry
   puma (~> 6)
   rake
@@ -255,6 +257,9 @@ DEPENDENCIES
   webmock (~> 3)
   yard
   yardstick
+
+RUBY VERSION
+   ruby 3.1.2p20
 
 BUNDLED WITH
    2.3.22

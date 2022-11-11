@@ -24,7 +24,9 @@ describe 'Integration Tests of Google Trend API and Database' do
       trend = GoogleTrend::Gt::TrendMapper.new('TSLA', RGT_TOKEN).find
 
       rebuilt = GoogleTrend::Repository::For.entity(trend).create(trend)
-
+      
+      puts(rebuilt.query)
+      puts(rebuilt.time_series)
       _(rebuilt.query).must_equal(trend.query)
       _(rebuilt.time_series).must_equal(trend.time_series)
     end
