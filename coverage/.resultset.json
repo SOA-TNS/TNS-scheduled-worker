@@ -15,7 +15,7 @@
         1,
         null,
         1,
-        10,
+        12,
         null,
         null
       ],
@@ -343,6 +343,68 @@
       "/home/yuhsuan/SOA_L/app/models/repositories/value.rb": [
 
       ],
+      "/home/yuhsuan/SOA_L/app/domain/data_preprocessing.rb": [
+        null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        0,
+        null,
+        null,
+        1,
+        1,
+        1,
+        106,
+        53,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/home/yuhsuan/SOA_L/app/domain/strategy.rb": [
+        null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        3,
+        null,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        18,
+        null,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
       "/home/yuhsuan/SOA_L/app/controllers/app.rb": [
         null,
         null,
@@ -438,6 +500,6 @@
         null
       ]
     },
-    "timestamp": 1668172962
+    "timestamp": 1668185924
   }
 }
