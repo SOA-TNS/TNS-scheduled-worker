@@ -25,16 +25,21 @@ describe 'Integration Tests of Google Trend API and Database' do
 
       rebuilt = GoogleTrend::Repository::For.entity(trend).create(trend)
       
-      a = GoogleTrend::Value::DataPreprocessing.new(rebuilt)
-      b = GoogleTrend::Value::Strategy.new(a.extracted_value)
-      #puts(a)
+      c = GoogleTrend::Mapper::DataPreprocessing.new(rebuilt)
+      puts(c.to_entity)
+      puts(c.to_entity.query)
+      puts(c.to_entity.risk)
+
+      #a = GoogleTrend::Repository::For.klass(GoogleTrend::Entity::RgtEntity).find_stock_name("FTX")
+      #b = GoogleTrend::Value::Strategy.new(a.extracted_value)
+      #puts(a.class)
       #puts(a.query)
       #puts(a.extracted_value)
-      puts(b.at_risk?)
+      #puts(b.at_risk?)
       #puts(rebuilt.query)
       #puts(rebuilt.time_series)
-      _(rebuilt.query).must_equal(trend.query)
-      _(rebuilt.time_series).must_equal(trend.time_series)
+      #_(rebuilt.query).must_equal(trend.query)
+      #_(rebuilt.time_series).must_equal(trend.time_series)
     end
   end
 end

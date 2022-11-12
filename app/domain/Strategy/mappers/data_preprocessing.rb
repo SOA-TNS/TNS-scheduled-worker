@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module GoogleTrend
-  module Value
+  module Mapper
     class DataPreprocessing
       def initialize(entity_class = GoogleTrend::Entity::RgtEntity)
         @entity_class = entity_class
@@ -19,6 +19,12 @@ module GoogleTrend
         time_series.reverse()
       end
 
+      def to_entity
+        Entity::MainPageEntity.new(
+          query: query(),
+          risk: GoogleTrend::Value::Strategy.new(extracted_value()).at_risk?
+        )
+      end
     end
   end
 end

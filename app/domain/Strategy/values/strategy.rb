@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'data_preprocessing'
+require_relative '../mappers/data_preprocessing'
 module GoogleTrend
   module Value
     class Strategy

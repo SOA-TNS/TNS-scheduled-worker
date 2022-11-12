@@ -12,7 +12,7 @@ module GoogleTrend
   
       attribute :query,     Strict::String
       attribute :risk,      Strict::String
-      attribute :stock_detail, SecondPageEntity 
+      #attribute :stock_detail, SecondPageEntity 
 
       def to_attr_hash
         to_hash.except(:id)

@@ -3,7 +3,8 @@
 require 'roda'
 require 'slim'
 
-module CodePraise
+module GoogleTrend
+
   class App < Roda
     plugin :render, engine: 'slim', views: 'app/views'
     plugin :assets, css: 'bootstrap.css', path: 'app/views/assets'
@@ -22,7 +23,11 @@ module CodePraise
           
             routing.post do
               rgt_url = routing.params['searchStock'].downcase
-    
+
+              trend = GoogleTrend::Gt::TrendMapper.new('BTC', App.config.RGT_TOKEN).find
+              
+              GoogleTrend::Repository::For.entity(trend).create(trend)
+              
               routing.redirect "Gtrend/#{rgt_url}"
             end
           end
@@ -30,10 +35,11 @@ module CodePraise
           routing.on String do |qry|
             # GET /project/owner/project
             routing.get do
-              rgt_name = GoogleTrend::TrendMapper
-                .new(qry).get_rgt.query
-              rgt_dic = GoogleTrend::TrendMapper
-                .new(qry).get_rgt.time_series
+              project = Repository::For.klass(Entity::RgtEntity).find_stock_name("BTC")
+
+              rgt_name = project.query
+
+              rgt_dic = project.time_series
               view 'Gtrend', locals: { name: rgt_name, interest_over_time: rgt_dic }
             end
           end
