@@ -39,7 +39,7 @@ module GoogleTrend
           array = []
           interest_over_time = @rgt["interest_over_time"] #hash
           time_series_data = interest_over_time["timeline_data"] #array
-          time_series_data.each{ |data| l << "#{data["date"]} => #{data["values"][0]["value"]}"  }
+          time_series_data.each{ |data| array << "#{data["date"]} => #{data["values"][0]["value"]}"  }
           array.to_s
         end
       end
