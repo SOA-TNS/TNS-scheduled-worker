@@ -452,23 +452,6 @@
         null,
         null,
         null,
-        1,
-        1,
-        1,
-        null,
-        null,
-        1,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        1,
-        null,
-        null,
-        null,
-        null,
         null
       ],
       "/home/yuhsuan/SOA_L/app/controllers/app.rb": [
@@ -511,6 +494,7 @@
         0,
         0,
         0,
+        null,
         0,
         0,
         null,
@@ -573,6 +557,6 @@
         null
       ]
     },
-    "timestamp": 1668268975
+    "timestamp": 1668272286
   }
 }

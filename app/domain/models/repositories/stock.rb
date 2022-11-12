@@ -22,7 +22,7 @@ module GoogleTrend
       end
 
       def self.create(entity)
-        db_stock = PersistStock.new(entity).create_stock
+        db_stock = Database::ValueOrm.create(entity.to_attr_hash)
         rebuild_entity(db_stock)
       end
 
@@ -36,23 +36,6 @@ module GoogleTrend
             #time_series:
           )
         )
-      end
-
-      # Helper class to persist project and its members to database
-      class PersistStock
-        def initialize(entity)
-          @entity = entity
-        end
-
-        def create_stock
-        #puts(@entity.to_attr_hash)
-        #puts(@entity.to_attr_hash[:query].class)
-        #puts(@entity.to_attr_hash[:time_series].class)
-        #puts(@entity.to_attr_hash)
-        #puts(@entity.to_attr_hash[:query].class)
-        #puts(@entity.to_attr_hash[:time_series].to_s)
-          Database::ValueOrm.create(@entity.to_attr_hash)
-        end
       end
     end
   end
