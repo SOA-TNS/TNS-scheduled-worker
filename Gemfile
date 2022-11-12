@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 ruby File.read(".ruby_version").strip
 
+# Requirement of GoogleTrend
+gem 'google_search_results'
+
 # Configuration and Utilities
 gem 'figaro', '~> 1.2'
 

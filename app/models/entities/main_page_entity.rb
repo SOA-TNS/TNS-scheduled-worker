@@ -3,14 +3,16 @@
 require 'dry-types'
 require 'dry-struct'
 
+require_relative 'second_page_entity'
+
 module GoogleTrend
   module Entity
     class MainPageEntity < Dry::Struct
       include Dry.Types
   
       attribute :query,     Strict::String
-      attribute :risk,      Strict::Boolean
-      attribute :stock_detail, Entity::SecondPageEntity
+      attribute :risk,      Strict::String
+      attribute :stock_detail, SecondPageEntity 
 
       def to_attr_hash
         to_hash.except(:id)

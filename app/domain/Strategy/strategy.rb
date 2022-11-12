@@ -26,7 +26,7 @@ module GoogleTrend
       end
 
       def at_risk?
-        risk = MA18() > MA3() ? false : true
+        risk = ((MA18() > MA3()) or @extracted_value[0] < 80) ? "not at risk" : "at risk"
         risk
       end
     end
