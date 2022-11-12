@@ -39,6 +39,7 @@ module GoogleTrend
               data_record = Repository::For.klass(Entity::RgtEntity).find_stock_name(qry)
 
               stock =  Mapper::DataPreprocessing.new(data_record).to_entity
+
               rgt_name = stock.query
 
               rgt_dic = stock.risk

@@ -22,9 +22,11 @@ module GoogleTrend
       end
 
       class DataMapper
+
         def initialize(rgt)
           @rgt = rgt
         end
+
         def build_entity
           GoogleTrend::Entity::RgtEntity.new(
             id: nil,
@@ -32,9 +34,11 @@ module GoogleTrend
             time_series:
           )
         end
+
         def query
           @rgt['search_parameters']['q']
         end
+
         def time_series
           array = []
           interest_over_time = @rgt["interest_over_time"] #hash
