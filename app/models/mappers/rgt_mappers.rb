@@ -36,19 +36,14 @@ module GoogleTrend
           @rgt['search_parameters']['q']
         end
         def time_series
-          l = []
-          a = @rgt["interest_over_time"] #hash
-          b = a["timeline_data"] #array
-          b.each{ |data| l << "#{data["date"]} => #{data["values"][0]["value"]}"  }
-          l.to_s
+          array = []
+          interest_over_time = @rgt["interest_over_time"] #hash
+          time_series_data = interest_over_time["timeline_data"] #array
+          time_series_data.each{ |data| l << "#{data["date"]} => #{data["values"][0]["value"]}"  }
+          array.to_s
         end
       end
     end
   end
 end
 
-#print(GoogleTrend::Gt::TrendMapper.new('TSMC').find)
-#print("\n") 
-#print(GoogleTrend::Gt::TrendMapper.new('apple',"88fc96111ce19cfb3fa4eb149e1aa32df56db927da85503dcd16d2b37e711771").find.time_series)
-#print("\n") 
-#print(GoogleTrend::Gt::TrendMapper.new('TSMC').find.time_series)
