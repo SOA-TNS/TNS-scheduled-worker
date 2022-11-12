@@ -24,7 +24,7 @@ describe 'Integration Tests of Google Trend API and Database' do
       trend = GoogleTrend::Gt::TrendMapper.new('BTC', RGT_TOKEN).find
 
       rebuilt = GoogleTrend::Repository::For.entity(trend).create(trend)
-      
+ 
       c = GoogleTrend::Mapper::DataPreprocessing.new(rebuilt)
       puts(c.to_entity)
       puts(c.to_entity.query)

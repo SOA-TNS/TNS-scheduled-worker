@@ -22,9 +22,9 @@ module GoogleTrend
           routing.is do
           
             routing.post do
-              rgt_url = routing.params['searchStock'].downcase
+              rgt_url = routing.params['searchStock']
 
-              trend = GoogleTrend::Gt::TrendMapper.new('BTC', App.config.RGT_TOKEN).find
+              trend = GoogleTrend::Gt::TrendMapper.new(rgt_url, App.config.RGT_TOKEN).find
               
               GoogleTrend::Repository::For.entity(trend).create(trend)
               
@@ -34,12 +34,14 @@ module GoogleTrend
 
           routing.on String do |qry|
             # GET /project/owner/project
+            puts(qry)
             routing.get do
-              project = Repository::For.klass(Entity::RgtEntity).find_stock_name("BTC")
+              data_record = Repository::For.klass(Entity::RgtEntity).find_stock_name(qry)
 
-              rgt_name = project.query
+              stock =  Mapper::DataPreprocessing.new(data_record).to_entity
+              rgt_name = stock.query
 
-              rgt_dic = project.time_series
+              rgt_dic = stock.risk
               view 'Gtrend', locals: { name: rgt_name, interest_over_time: rgt_dic }
             end
           end
