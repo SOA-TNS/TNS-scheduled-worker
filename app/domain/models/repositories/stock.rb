@@ -45,12 +45,6 @@ module GoogleTrend
         end
 
         def create_stock
-        #puts(@entity.to_attr_hash)
-        #puts(@entity.to_attr_hash[:query].class)
-        #puts(@entity.to_attr_hash[:time_series].class)
-        #puts(@entity.to_attr_hash)
-        #puts(@entity.to_attr_hash[:query].class)
-        #puts(@entity.to_attr_hash[:time_series].to_s)
           Database::ValueOrm.create(@entity.to_attr_hash)
         end
       end
