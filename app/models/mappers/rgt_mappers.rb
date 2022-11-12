@@ -5,11 +5,11 @@ module GoogleTrend
   module Gt
     class TrendMapper
 
-      def initialize(name,config, gateway_class = Gt::RgtApi)
-        @config = config
+      def initialize(name,api_key , gateway_class = Gt::RgtApi)
+        @api_key = api_key
         @name = name
         @gateway_class = gateway_class
-        @gateway = @gateway_class.new(@config, @name)
+        @gateway = @gateway_class.new(@api_key, @name)
       end
 
       def find
