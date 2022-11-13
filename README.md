@@ -9,12 +9,12 @@
 
 - 1.We get popular value from Google Trend API.
 - 2.We calculate a moving average of the last three weekly data volumes:
---MA3 = (n(t-1) + n(t-2)) + n(t-3))/3, where n(t-1) is the volume for the last available week, n(t-2) is the volume for the second-last available week, and --n(t-3) is the volume for the third-last available week.
--3.We calculate a moving average MA18 of the data volumes over the last 18 weeks:
- --MA18 = (n(t-1) + n(t-2) + ……… + n(t-18))/18
+-- MA3 = (n(t-1) + n(t-2)) + n(t-3))/3, where n(t-1) is the volume for the last available week, n(t-2) is the volume for the second-last available week, and n(t-3) is the volume for the third-last available week.
+- 3.We calculate a moving average MA18 of the data volumes over the last 18 weeks:
+ -- MA18 = (n(t-1) + n(t-2) + ……… + n(t-18))/18
 -4.For falling search volume, MA3 < MA18 or the volume of last available week < 80, we define it as safe stock
---if   MA3 < MA18 or n(t-1) < 80    =>   Safe stock
---else   =>  unsafe stock
+-- if   MA3 < MA18 or n(t-1) < 80    =>   Safe stock
+-- else   =>  unsafe stock
 
 
 ## Short-term usability goals
