@@ -1,6 +1,6 @@
 # TNS
 
-1.We supply users search stock which they are interest in and notify them whether this stock safe or not. 
+1.1.We provide users with search environment that allow users to search for stock they are interested in. 
 
 2.You can weight the pros and cons according to the Indicator we supply, and decide  whether to search more detailed information of the stock 
 
