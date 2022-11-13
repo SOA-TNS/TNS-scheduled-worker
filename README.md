@@ -1,4 +1,4 @@
-# GoogleTrend
+# TNS
 
 1.We supply users search stock which they are interest in and notify them whether this stock safe or not. 
 
