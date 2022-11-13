@@ -2,7 +2,7 @@
 
 1.We supply users search stock which they are interest in and notify them whether this stock safe or not. 
 
-2.You can weight the pros and cons according to the Indicator we supply, and decide  whether to search more detail information of the stock 
+2.You can weight the pros and cons according to the Indicator we supply, and decide  whether to search more detailed information of the stock 
 
 
 ## Overview
