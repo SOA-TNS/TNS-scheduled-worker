@@ -19,7 +19,7 @@
 
 ## Short-term usability goals
 
--Provide investors with risk assessment indicators,and protect them from risk.
+- Provide investors with risk assessment indicators,and protect them from risk.
 
 ## Long-term goals
 
