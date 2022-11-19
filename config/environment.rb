@@ -1,33 +1,29 @@
 # frozen_string_literal: true
 
-require 'figaro'
 require 'roda'
-require 'sequel'
 require 'yaml'
+require 'sequel'
+require 'figaro'
+require 'rack/session'
 
-module GoogleTrend
-  # Configuration for the App
+module TravellingSuggestions
   class App < Roda
     plugin :environments
-
-    # rubocop:disable Lint/ConstantDefinitionInBlock
+      
     configure do
-      # Environment variables setup
       Figaro.application = Figaro::Application.new(
-        environment:,
+        environment: environment,
         path: File.expand_path('config/secrets.yml')
       )
       Figaro.load
-      def self.config = Figaro.env
-
+      def self.config() = Figaro.env
+      
       configure :development, :test do
         ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
       end
-
-      # Database Setup
+      use Rack::Session::Cookie, secret: config.SESSION_SECRET
+      CWB_TOKEN = config.CWB_TOKEN
       DB = Sequel.connect(ENV.fetch('DATABASE_URL'))
-
-      def self.DB = DB # rubocop:disable Naming/MethodName
+      def self.DB = DB
     end
   end
-end
