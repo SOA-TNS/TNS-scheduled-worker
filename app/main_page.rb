@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+require_relative 'stock'
+
 module Views
   class MainPageInfo
     def initialize(data_recoed, stock, index=nil)
-      @data_recoed = GoogleTrend::Entity::RgtEntity.new(data_recoed)
+      @data_recoed = Stock.new(data_recoed)
       @stock = stock
       @index = index
     end
