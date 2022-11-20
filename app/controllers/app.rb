@@ -2,6 +2,7 @@
 require 'roda'
 require 'slim'
 require 'slim/include'
+require_relative "../presentation/view_object/main_page"
 
 module GoogleTrend
 
@@ -10,8 +11,8 @@ module GoogleTrend
     plugin :halt
     plugin :flash
     plugin :all_verbs
-    plugin :render, engine: 'slim', views: 'app/views'
-    plugin :assets, css: 'bootstrap.css', path: 'app/views/assets/css'
+    plugin :render, engine: 'slim', views: 'app/presentation/views_html'
+    plugin :assets, css: 'bootstrap.css', path: 'app/presentation/assets/css'
     plugin :common_logger, $stderr
 
     use Rack::MethodOverride
@@ -21,12 +22,12 @@ module GoogleTrend
       response['Content-Type'] = 'text/html; charset=utf-8'
 
       routing.root do
-        session[:watching] ||= []
-        data_record = Repository::For.klass(Entity::RgtEntity).find_stock_names(session[:watching])
+        # session[:watching] ||= []
+        # data_record = Repository::For.klass(Entity::RgtEntity).find_stock_names(session[:watching])
         # session[:watching] = data_record.map(&:stockname)
-        if data_record.none?
-          flash.now[:notice] = 'Search something to get started'
-        end
+        # if data_record.none?
+        #   flash.now[:notice] = 'Search something to get started'
+        # end
 
         # stocks_list = Views::StocksList.new(projects)
 
@@ -47,7 +48,7 @@ module GoogleTrend
             # GET /project/owner/project
             routing.delete do
               stockname = "#{qry}"
-              session[:watching].delete(stockname)
+              # session[:watching].delete(stockname)
   
               routing.redirect '/'
             end
@@ -70,15 +71,19 @@ module GoogleTrend
                 end
               end
               # puts(data_record.query)
-              session[:watching].insert(0, data_record.query).uniq!
+              # session[:watching].insert(0, data_record.query).uniq!
               
               data_record = Repository::For.klass(Entity::RgtEntity).find_stock_name(rgt_url)
               stock =  Mapper::DataPreprocessing.new(data_record).to_entity                
-              rgt_name = stock.query
-              rgt_risk = stock.risk
-              rgt_interest_over_time = stock.interest_over_time
-              view 'Gtrend', locals: { name: rgt_name, risk: rgt_risk, interest_over_time: rgt_interest_over_time }
-              # view 'Gtrend', locals: { stock: stock}
+              
+              stock_trend = Views::MainPageInfo.new(data_record, stock)
+
+              view 'Gtrend', locals: { stock_trend: }
+              
+              #rgt_name = stock.query
+              #rgt_dic = stock.risk
+              
+              #view 'Gtrend', locals: { name: rgt_name, interest_over_time: rgt_dic }
             end
           end
       end

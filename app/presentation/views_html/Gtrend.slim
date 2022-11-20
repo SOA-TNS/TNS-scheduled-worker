@@ -12,7 +12,7 @@ html
       .row
         h2
           span.project.owner
-            = name
+            = stock_trend.query
       .container
         .row
           .col-lg-1.col-md-2.col-sm-2
@@ -20,4 +20,4 @@ html
               | Repo:
           .col-lg-11.col-md-10.col-sm-6
             span.project.detail
-              = risk
+              = stock_trend.risk

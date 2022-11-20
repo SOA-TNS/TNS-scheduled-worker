@@ -34,5 +34,5 @@ module TravellingSuggestions
       
       LOGGER = Logger.new($stderr)
       def self.logger = LOGGER
-
+      end
   end
