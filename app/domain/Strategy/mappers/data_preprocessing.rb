@@ -33,6 +33,7 @@ module GoogleTrend
           array.append(hash)
         end
         array
+        
       end
 
       def to_entity
