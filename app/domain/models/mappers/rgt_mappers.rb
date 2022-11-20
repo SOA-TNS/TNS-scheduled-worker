@@ -3,8 +3,7 @@
 module GoogleTrend
   module Gt
     class TrendMapper
-
-      def initialize(name,api_key , gateway_class = Gt::RgtApi)
+      def initialize(name, api_key, gateway_class = Gt::RgtApi)
         @api_key = api_key
         @name = name
         @gateway_class = gateway_class
@@ -21,7 +20,6 @@ module GoogleTrend
       end
 
       class DataMapper
-
         def initialize(rgt)
           @rgt = rgt
         end
@@ -40,13 +38,12 @@ module GoogleTrend
 
         def time_series
           array = []
-          interest_over_time = @rgt["interest_over_time"] #hash
-          time_series_data = interest_over_time["timeline_data"] #array
-          time_series_data.each{ |data| array << "#{data["date"]} => #{data["values"][0]["value"]}"  }
+          interest_over_time = @rgt['interest_over_time'] # hash
+          time_series_data = interest_over_time['timeline_data'] # array
+          time_series_data.each { |data| array << "#{data['date']} => #{data['values'][0]['value']}" }
           array.to_s
         end
       end
     end
   end
 end
-

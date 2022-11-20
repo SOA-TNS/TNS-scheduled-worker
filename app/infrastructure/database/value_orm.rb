@@ -15,7 +15,6 @@ module GoogleTrend
                    left_key: :value_id, right_key: :stock_id
 
       plugin :timestamps, update_on_create: true
-
     end
   end
 end

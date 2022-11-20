@@ -4,7 +4,8 @@ module GoogleTrend
   module Repository
     # Repository for Project Entities
     class Stock
-      def self.all # return an array
+      # return an array
+      def self.all
         Database::ValueOrm.all.map { |db_stock| rebuild_entity(db_stock) }
       end
 
@@ -23,7 +24,7 @@ module GoogleTrend
       end
 
       def self.find_id(id)
-        db_record = Database::ValueOrm.first(id:) 
+        db_record = Database::ValueOrm.first(id:)
         rebuild_entity(db_record)
       end
 

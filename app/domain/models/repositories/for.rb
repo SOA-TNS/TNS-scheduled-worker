@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 require_relative 'stock'
 
 module GoogleTrend
   module Repository
     # Finds the right repository for an entity object or class
     module For
-      ENTITY_REPOSITORY = { 
+      ENTITY_REPOSITORY = {
         Entity::RgtEntity => Stock
       }.freeze
 

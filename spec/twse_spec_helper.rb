@@ -9,11 +9,11 @@ require 'webmock'
 require 'minitest/autorun'
 require 'minitest/rg'
 require 'yaml'
-require_relative '../lib/TwseApi.rb'
+require_relative '../lib/TwseApi'
 
 CORRECT = YAML.safe_load(File.read('../spec/fixtures/twse_results.yml'))
 STOCKCODE = 2330
-CORRECT_i = CORRECT['上市個股股價升降幅度'].select{ |x| x['Code'] == "#{STOCKCODE}" }
+CORRECT_i = CORRECT['上市個股股價升降幅度'].select { |x| x['Code'] == STOCKCODE.to_s }
 # CORRECT_i 還是 [{}]
 CORRECT_i = CORRECT_i[0]
 # CORRECT_i 只剩 {}

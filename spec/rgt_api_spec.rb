@@ -2,7 +2,6 @@
 
 require_relative 'spec_helper_rgt'
 
-
 describe 'Tests rgt API library' do
   VCR.configure do |c|
     c.cassette_library_dir = CASSETTES_FOLDER

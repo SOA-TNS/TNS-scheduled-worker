@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 require_relative 'spec_helper_rgt'
@@ -24,34 +23,29 @@ describe 'Tests RGT API library' do
       _(@rgt.query).must_equal CORRECT['search_parameters']['q']
     end
 
- 
-
     it 'BAD: should raise exception when unauthorized' do
       _(proc do
         GoogleTrend::Gt::TrendMapper
-          .new('TSMC','BAD_TOKEN')
+          .new('TSMC', 'BAD_TOKEN')
           .find
       end).must_raise GoogleTrend::Gt::RgtApi::Response::Unauthorized
     end
 
+    describe 'popular values  in information' do
+      before do
+        @rgt = GoogleTrend::Gt::TrendMapper
+          .new('TSMC')
+          .find
+      end
 
+      it 'HAPPY: should recognize values' do
+        _(@rgt.time_series).must_be_kind_of GoogleTrend::Entity::RgtEntity
+      end
 
-  describe 'popular values  in information' do
-    before do
-      @rgt = GoogleTrend::Gt::TrendMapper
-        .new('TSMC')
-        .find
-    end
-
-    it 'HAPPY: should recognize values' do
-      _(@rgt.time_series).must_be_kind_of GoogleTrend::Entity::RgtEntity
-    end
-
-
-    it 'HAPPY: should identify values' do
-      _(@rgt.time_series).wont_be_nil
-      _(@rgt.time_series).must_equal CORRECT['interest_over_time']['timeline_data']
-    end
+      it 'HAPPY: should identify values' do
+        _(@rgt.time_series).wont_be_nil
+        _(@rgt.time_series).must_equal CORRECT['interest_over_time']['timeline_data']
+      end
     end
   end
 end

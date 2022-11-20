@@ -9,18 +9,14 @@ module GoogleTrend
       def initialize(stockname)
         @stockname = stockname
       end
-      def openprice 
 
-      end
-      def closeprice 
+      def openprice; end
 
-      end
-      def toplimit 
+      def closeprice; end
 
-      end
-      def bottomlimit 
+      def toplimit; end
 
-      end
+      def bottomlimit; end
     end
   end
 end

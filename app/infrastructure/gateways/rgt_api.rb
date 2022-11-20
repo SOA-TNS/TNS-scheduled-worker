@@ -6,25 +6,24 @@ require 'http'
 
 module GoogleTrend
   module Gt
-  # access google trend
+    # access google trend
     class RgtApi
       API_PROJECT_ROOT = 'https://serpapi.com/search.json?'
-      ENGINE = "google_trends" #1
-      DATA_TYPE = "TIMESERIES" #3
+      ENGINE = 'google_trends' # 1
+      DATA_TYPE = 'TIMESERIES' # 3
 
-      attr_reader :name
-      attr_reader :apikey
+      attr_reader :name, :apikey
 
       def initialize(config, name)
-        @name = name #2
-        @apikey = config #4
+        @name = name # 2
+        @apikey = config # 4
       end
 
       def jason
         Request.new(API_PROJECT_ROOT).rgt(@name, @apikey).parse
       end
 
-      #get data by url
+      # get data by url
       class Request
         def initialize(resource_root)
           @resource_root = resource_root
@@ -42,9 +41,9 @@ module GoogleTrend
           end
         end
       end
+
       # Decorates HTTP responses from FinMind with success/error reporting
       class Response < SimpleDelegator
-        
         # Response when get Http status code 401 (Unauthorized)
         Unauthorized = Class.new(StandardError)
 
@@ -53,7 +52,7 @@ module GoogleTrend
 
         HTTP_ERROR = {
           401 => Unauthorized,
-          404 => NotFound,
+          404 => NotFound
         }.freeze
 
         def successful?

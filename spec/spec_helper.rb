@@ -10,7 +10,7 @@ require 'minitest/rg'
 require 'vcr'
 require 'webmock'
 
-require_relative '../lib/finmind_api.rb'
+require_relative '../lib/finmind_api'
 
 CORRECT = YAML.safe_load(File.read('spec/fixtures/finmind_results.yml'))
 

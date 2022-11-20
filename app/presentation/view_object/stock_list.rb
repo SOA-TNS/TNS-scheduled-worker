@@ -9,10 +9,8 @@ module Views
       @data_recoed = data_recoed.map.with_index { |stock, i| Stock.new(stock, i) }
     end
 
-    def each
-      @data_recoed.each do |stock|
-        yield stock
-      end
+    def each(&)
+      @data_recoed.each(&)
     end
 
     def any?

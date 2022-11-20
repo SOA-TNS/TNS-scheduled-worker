@@ -4,14 +4,14 @@ require_relative 'stock'
 
 module Views
   class MainPageInfo
-    def initialize(data_recoed, stock, index=nil)
+    def initialize(data_recoed, stock, index = nil)
       @data_recoed = Stock.new(data_recoed)
       @stock = stock
       @index = index
     end
 
     def query
-      @stock.query    
+      @stock.query
     end
 
     def risk
