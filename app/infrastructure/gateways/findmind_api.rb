@@ -7,10 +7,12 @@ module FinMind
   module Stock
     class StockApi
       FM_PATH = 'https://api.finmindtrade.com/api/v4/data?'
+      time = Time.now
+      print(time.to_s[0..9])
 
       attr_reader :parameter
   
-      def initialize(dataset, data_id, start_date, end_date)
+      def initialize(dataset, data_id, start_date = (Time.now - 3600*24*60).to_s[0..9], end_date = Time.now.to_s[0..9])
         @parameter = {
           dataset: dataset,
           data_id: data_id,
@@ -68,3 +70,6 @@ module FinMind
     end
   end
 end
+
+p = FinMind::Stock::StockApi.new("TaiwanStockMarginPurchaseShortSale","2330").jason
+print(p)
