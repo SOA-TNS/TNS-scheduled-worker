@@ -36,14 +36,18 @@ module GoogleTrend
             # GET /project/owner/project
             puts(qry)
             routing.get do
+              
               data_record = Repository::For.klass(Entity::RgtEntity).find_stock_name(qry)
-
               stock =  Mapper::DataPreprocessing.new(data_record).to_entity
 
-              rgt_name = stock.query
+              stock_trend = Views::MainPageInfo.new(data_record, stock)
 
-              rgt_dic = stock.risk
-              view 'Gtrend', locals: { name: rgt_name, interest_over_time: rgt_dic }
+              view 'Gtrend', locals: { stock_trend }
+              
+              #rgt_name = stock.query
+              #rgt_dic = stock.risk
+              
+              #view 'Gtrend', locals: { name: rgt_name, interest_over_time: rgt_dic }
             end
           end
         end
