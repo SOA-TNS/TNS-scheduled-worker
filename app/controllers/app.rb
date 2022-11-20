@@ -42,7 +42,7 @@ module GoogleTrend
 
               stock_trend = Views::MainPageInfo.new(data_record, stock)
 
-              view 'Gtrend', locals: { stock_trend }
+              view 'Gtrend', locals: { stock_trend: }
               
               #rgt_name = stock.query
               #rgt_dic = stock.risk
