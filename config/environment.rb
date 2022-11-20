@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require 'figaro'
+require 'logger'
 require 'roda'
+require 'rack/session'
 require 'sequel'
-require 'yaml'
 
 module GoogleTrend
   # Configuration for the App
@@ -11,7 +12,7 @@ module GoogleTrend
     plugin :environments
 
     # rubocop:disable Lint/ConstantDefinitionInBlock
-    configure do
+    
       # Environment variables setup
       Figaro.application = Figaro::Application.new(
         environment:,
@@ -20,7 +21,10 @@ module GoogleTrend
       Figaro.load
       def self.config = Figaro.env
 
+      use Rack::Session::Cookie, secret: config.SESSION_SECRET
+
       configure :development, :test do
+        require 'pry';
         ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
       end
 
@@ -28,6 +32,8 @@ module GoogleTrend
       DB = Sequel.connect(ENV.fetch('DATABASE_URL'))
 
       def self.DB = DB # rubocop:disable Naming/MethodName
-    end
+      
+      LOGGER = Logger.new($stderr)
+      def self.logger = LOGGER
   end
 end

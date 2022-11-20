@@ -1,0 +1,17 @@
+console
+db:drop
+db:migrate
+db:wipe
+new_session_secret
+quality:all
+quality:flog
+quality:reek
+quality:rubocop
+repos:create
+repos:list
+repos:wipe
+rerun
+respec
+run
+spec
+vcr:wipe

@@ -19,10 +19,28 @@ module GoogleTrend
         time_series.reverse()
       end
 
+      def interest_over_time
+        array = []
+        time_series = @entity_class.time_series
+        time_series = time_series.split("\"")
+        time_series.select!{|str| str.length >= 20}
+        time_series.reverse()
+        time_series.map!{|str| str.split("=>")}
+        time_series.each do |arr|
+          hash = {}
+          hash['time'] = arr[0]
+          hash['value'] = arr[1].to_f
+          array.append(hash)
+        end
+        array
+      end  
+
+        
       def to_entity
         Entity::MainPageEntity.new(
           query: query(),
-          risk: GoogleTrend::Value::Strategy.new(extracted_value()).at_risk?
+          risk: GoogleTrend::Value::Strategy.new(extracted_value()).at_risk?,
+          interest_over_time:interest_over_time()
         )
       end
     end

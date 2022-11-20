@@ -16,6 +16,12 @@ module GoogleTrend
         rebuild_entity(db_stock)
       end
 
+      def self.find_stock_names(stock_names)
+        stock_names.map do |query|
+          find_stock_name(query)
+        end.compact
+      end
+
       def self.find_id(id)
         db_record = Database::ValueOrm.first(id:) 
         rebuild_entity(db_record)
@@ -23,6 +29,11 @@ module GoogleTrend
 
       def self.create(entity)
         db_stock = Database::ValueOrm.create(entity.to_attr_hash)
+        rebuild_entity(db_stock)
+      end
+
+      def self.update(entity)
+        db_stock = Database::ValueOrm.update(entity.to_attr_hash)
         rebuild_entity(db_stock)
       end
 

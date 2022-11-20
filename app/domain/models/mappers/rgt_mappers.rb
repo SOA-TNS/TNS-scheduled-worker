@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-
 module GoogleTrend
   module Gt
     class TrendMapper
