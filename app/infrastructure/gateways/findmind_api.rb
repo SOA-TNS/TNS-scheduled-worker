@@ -3,8 +3,8 @@
 require 'yaml'
 require 'http'
 
-module FinMind
-  module Stock
+module GoogleTrend
+  module Gt
     class StockApi
       FM_PATH = 'https://api.finmindtrade.com/api/v4/data?'
       time = Time.now
@@ -71,5 +71,3 @@ module FinMind
   end
 end
 
-p = FinMind::Stock::StockApi.new("TaiwanStockMarginPurchaseShortSale","2330").jason
-print(p)
