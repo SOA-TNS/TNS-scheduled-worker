@@ -31,8 +31,8 @@ module GoogleTrend
             id: nil,
             stock_name:,
             name:,
-            per:,
-            pbr:
+            buy:,
+            sell:
           )
         end
 
