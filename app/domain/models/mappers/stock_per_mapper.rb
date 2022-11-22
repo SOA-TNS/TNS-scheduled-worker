@@ -45,21 +45,21 @@ module GoogleTrend
         def time
           date = []
           value_over_time = @stock['data'] # hash
-          value_over_time.each { |value| date << value['date'] } # array
+          value_over_time.each { |value| date << value['date'] }
           date.to_s
         end
 
         def per
           per = []
           value_over_time = @stock['data'] # hash
-          value_over_time.each { |value| per << value['PER'] } # array
+          value_over_time.each { |value| per << value['PER'] }
           per.to_s
         end
 
         def pbr
           pbr = []
           value_over_time = @stock['data'] # hash
-          value_over_time.each { |value| pbr << value['PBR'] } # array
+          value_over_time.each { |value| pbr << value['PBR'] }
           pbr.to_s
         end
       end
@@ -67,5 +67,4 @@ module GoogleTrend
   end
 end
 
-p = GoogleTrend::Gt::StockPerMapper.new('2330').find
-print(p)
+

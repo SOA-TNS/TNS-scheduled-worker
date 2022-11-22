@@ -44,28 +44,28 @@ module GoogleTrend
         def date
           date = []
           value_over_time = @stock['data'] # hash
-          value_over_time.each { |value| date << value['date'] } # array
+          value_over_time.each { |value| date << value['date'] }
           date.to_s
         end
 
         def link
           link = []
           value_over_time = @stock['data'] # hash
-          value_over_time.each { |value| link << value['link'] } # array
+          value_over_time.each { |value| link << value['link'] }
           link.to_s
         end
 
         def source
           source = []
           value_over_time = @stock['data'] # hash
-          value_over_time.each { |value| source << value['source'] } # array
+          value_over_time.each { |value| source << value['source'] }
           source.to_s
         end
 
         def title
           title = []
           value_over_time = @stock['data'] # hash
-          value_over_time.each { |value| title << value['title'] } # array
+          value_over_time.each { |value| title << value['title'] }
           title.to_s
         end
       end

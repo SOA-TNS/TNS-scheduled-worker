@@ -61,5 +61,4 @@ module GoogleTrend
     end
   end
 end
-p = GoogleTrend::Gt::StockCnnFearGreedIndexMapper.new('2330').find
-print(p)
+

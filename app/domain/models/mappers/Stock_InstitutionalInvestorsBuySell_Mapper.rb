@@ -43,21 +43,21 @@ module GoogleTrend
         def name
           name = []
           value_over_time = @stock['data'] # hash
-          value_over_time.each { |value| name << value['name'] } # array
+          value_over_time.each { |value| name << value['name'] } 
           name.to_s
         end
 
         def buy
           buy = []
           value_over_time = @stock['data'] # hash
-          value_over_time.each { |value| buy << value['buy'] } # array
+          value_over_time.each { |value| buy << value['buy'] }
           buy.to_s
         end
 
         def sell
           sell = []
           value_over_time = @stock['data'] # hash
-          value_over_time.each { |value| sell << value['sell'] } # array
+          value_over_time.each { |value| sell << value['sell'] }
           sell.to_s
         end
       end
