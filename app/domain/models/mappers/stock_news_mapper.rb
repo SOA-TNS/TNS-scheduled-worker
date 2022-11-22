@@ -29,7 +29,7 @@ module GoogleTrend
           end
   
           def build_entity
-            GoogleTrend::Entity::StoctEntity.new(
+            GoogleTrend::Entity::StoctNewsEntity.new(
               id: nil,
               date:,
               stock_name:,

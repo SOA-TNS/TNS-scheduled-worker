@@ -4,7 +4,7 @@ module GoogleTrend
     module Gt
       class StockInstitutionalInvestorsBuySellMapper
   
-        def initialize( data_id, start_date, end_date, gateway_class = Gt::StockApi)
+        def initialize( data_id, start_date = (Time.now - 3600*24*60).to_s[0..9], end_date = Time.now.to_s[0..9], gateway_class = Gt::StockApi)
           @data_id = data_id
           @gateway_class = gateway_class
           @start_date = start_date
@@ -28,7 +28,7 @@ module GoogleTrend
           end
   
           def build_entity
-            GoogleTrend::Entity::StoctEntity.new(
+            GoogleTrend::Entity::StockInstitutionalInvestorsBuySellEntity.new(
               id: nil,
               stock_name:,
               name:,
