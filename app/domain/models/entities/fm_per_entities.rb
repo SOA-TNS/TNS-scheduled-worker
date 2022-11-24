@@ -11,6 +11,7 @@ module GoogleTrend
       attribute :id, Integer.optional
       attribute :stock_name, Strict::String
       attribute :time, Strict::String
+      attribute :div_yield, Strict::String
       attribute :per, Strict::String
       attribute :pbr, Strict::String
 
