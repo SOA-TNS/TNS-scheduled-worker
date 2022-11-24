@@ -33,6 +33,7 @@ module GoogleTrend
             id: nil,
             stock_name:,
             time:,
+            div_yield:,
             per:,
             pbr:
           )
@@ -49,6 +50,13 @@ module GoogleTrend
           date.to_s
         end
 
+        def div_yield
+          div_yied = []
+          value_over_time = @stock['data']
+          value_over_time.each { |value| div_yied << value['dividend_yield'] } # array
+          div_yied.to_s
+        end
+        
         def per
           per = []
           value_over_time = @stock['data'] # hash
