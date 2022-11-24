@@ -5,10 +5,12 @@ require 'dry-struct'
 
 module GoogleTrend
   module Entity
-    class SecondPageEntity < Dry::Struct
+    class MainPageFmEntity < Dry::Struct
       include Dry.Types
 
-      attribute :stock_name, Strict::String
+      attribute :avg_per, Strict::String
+      attribute :avg_dividend_yield, Strict::String
+      attribute :net_buy_probability, Strict::String
 
       def to_attr_hash
         to_hash.except(:id)
