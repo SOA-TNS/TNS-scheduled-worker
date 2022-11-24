@@ -2,7 +2,6 @@
 
 require 'dry-types'
 require 'dry-struct'
-require_relative 'second_page_entity'
 
 module GoogleTrend
   module Entity
