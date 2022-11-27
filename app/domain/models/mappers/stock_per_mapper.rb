@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'findmind_api'
+require_relative '../../../infrastructure/gateways/findmind_api'
 
 module GoogleTrend
   module Gt

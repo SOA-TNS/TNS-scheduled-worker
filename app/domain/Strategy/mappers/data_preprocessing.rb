@@ -32,8 +32,7 @@ module GoogleTrend
           hash['value'] = arr[1].to_f
           array.append(hash)
         end
-        array
-        
+        array.to_s
       end
 
       def to_entity

@@ -12,6 +12,7 @@ module VcrHelper
     VCR.configure do |c|
       c.cassette_library_dir = CASSETTES_FOLDER
       c.hook_into :webmock
+      c.ignore_localhost = true # for acceptance tests
     end
   end
 
@@ -23,7 +24,8 @@ module VcrHelper
     VCR.insert_cassette(
       CASSETTE_FILE,
       record: :new_episodes,
-      match_requests_on: %i[method uri headers]
+      match_requests_on: %i[method uri headers],
+      allow_playback_repeats: true
     )
   end
 
