@@ -43,20 +43,3 @@ module GoogleTrend
     end
   end
 end
-"""
-session[:watching] ||= []
-
-result = Service::RiskStock.new.call(
-    watched_list: session[:watching],
-    requested: rgt_url
-    )
-
-if result.failure?
-  flash[:error] = result.failure
-  routing.redirect '/'
-end
-
-stock = result.value!
-stock_trend = Views::MainPageInfo.new(stock[:data_record], stock[:risk])
-view 'Gtrend', locals: { stock_trend: }
-"""
