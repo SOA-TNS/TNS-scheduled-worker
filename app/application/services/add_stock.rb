@@ -12,6 +12,9 @@ module GoogleTrend
       step :store_stock
 
       private
+
+      DB_ERR_MSG = 'Having trouble accessing the database'
+      GH_NOT_FOUND_MSG = 'Could not find that stock on GoogleTrend'
  
       def find_stock(input)
         if (stock = stock_in_database(input))
@@ -20,8 +23,8 @@ module GoogleTrend
           input[:remote_stock] = stock_from_googletrend(input)
         end
         Success(input)
-      rescue StandardError => error
-        Failure(error.to_s)
+      rescue StandardError => e
+        Failure(Response::ApiResult.new(status: :not_found, message: error.to_s))
       end
 
       def store_stock(input)
@@ -31,10 +34,10 @@ module GoogleTrend
           else
             input[:local_stock]
           end
-        Success(stock)
-      rescue StandardError => error
-        App.logger.error error.backtrace.join("\n")
-        Failure('Having trouble accessing the database')
+        Success(Response::ApiResult.new(status: :created, message: stock))
+      rescue StandardError => e
+        puts e.backtrace.join("\n")
+        Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR_MSG))
       end
 
       # following are support methods that other services could use
@@ -42,7 +45,7 @@ module GoogleTrend
       def stock_from_googletrend(input)
         GoogleTrend::Gt::TrendMapper.new(input["rgt_url"], App.config.RGT_TOKEN).find
       rescue StandardError
-        raise 'Could not find that Stock data'
+        raise GH_NOT_FOUND_MSG
       end
 
       def stock_in_database(input)

@@ -1,97 +1,89 @@
 # frozen_string_literal: true
 
 require 'roda'
-require 'slim'
-require 'slim/include'
-
-# require_relative 'helpers'
-require_relative '../../presentation/view_object/main_page'
 
 module GoogleTrend
+  # Web App
   class App < Roda
     plugin :halt
     plugin :flash
-    plugin :all_verbs
-    plugin :render, engine: 'slim', views: 'app/presentation/views_html'
-    plugin :assets, css: 'bootstrap.css', path: 'app/presentation/assets/css'
+    plugin :all_verbs # allows DELETE and other HTTP verbs beyond GET/POST
     plugin :common_logger, $stderr
 
+    # use Rack::MethodOverride # for other HTTP verbs (with plugin all_verbs)
+
+    # rubocop:disable Metrics/BlockLength
     route do |routing|
-      routing.assets
-      response['Content-Type'] = 'text/html; charset=utf-8'
+      response['Content-Type'] = 'application/json'
 
+      # GET /
       routing.root do
-        session[:watching] ||= []
-        
-        # 從service拿到過去的搜尋歷史
-        result = Service::ListStocks.new.call(session[:watching])
+        message = "CodePraise API v1 at GoogleTrend in #{App.environment} mode"
 
-        # 從是否發生錯誤決定要不清空歷史紀錄後，若沒有錯誤再判斷是否為空值，若為空值再顯示訊息'Add a Github project to get started'
-        # 最後將名稱記錄至 session[:watching]內，並透過view object取得資訊顯示在畫面上
-        if result.failure?
-          flash[:error] = result.failure
-          viewable_projects = []
-        else
-          stocks = result.value!
-          if stocks.none?
-            flash.now[:notice] = 'Add a Github project to get started'
-          end
-          
-          session[:watching] = stocks.map(&:query)
-          # viewable_projects = Views::ProjectsList.new(projects)
-        end
+        result_response = Representer::HttpResponse.new(
+          Response::ApiResult.new(status: :ok, message: message)
+        )
 
-        view 'home'
+        response.status = result_response.http_status_code
+        result_response.to_json
       end
 
-      routing.on 'Gtrend' do
-        routing.is do
-          routing.post do
-            # 傳入routing.params['searchStock']的值，從Form object驗證傳入值是否正確(是否為股票名稱或代碼)
-            # stock_request = Forms::NewStock.new.call(routing.params)
-            stock_made = Service::AddStock.new.call(routing.params)
-            if stock_made.failure?
-              flash[:error] = stock_made.failure
-              routing.redirect '/'
+      routing.on 'api/v1' do
+        routing.on 'Gtrend' do
+          routing.on String do |qry|
+            routing.get do
+              
+              result = Service::RiskStock.new.call(requested: qry)
+             
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
+              end
+
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
+              Representer::StockInfo.new(
+                result.value!.message
+              ).to_json
             end
-            
-            stock = stock_made.value!
-            session[:watching].insert(0, stock.query).uniq!
-            flash[:notice] = 'Project added to your list'
-            routing.redirect "Gtrend/#{stock.query}"
+
+            # POST /projects/{owner_name}/{project_name}
+            routing.post do
+
+              
+              result = Service::AddStock.new.call(routing.params)
+
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
+              end
+
+              # http_response = Representer::HttpResponse.new(result.value!)
+              # response.status = http_response.http_status_code
+              # Representer::RgtRepresenter.new(result.value!.message).to_json
+            end
           end
-        end
 
-        routing.on String do |qry|
-          # 預計討論刪除
-          # GET /project/owner/project
-          # routing.delete do
-          #   stockname = qry.to_s
-          #    session[:watching].delete(stockname)
+          routing.is do
+            # GET /projects?list={base64_json_array_of_project_fullnames}
+            routing.get do
+              
+              list_req = Request::StockList.new(routing.params)
+              result = Service::ListStocks.new.call(list_request: list_req)
+              puts(result)
+              if result.failure?
+                failed = Representer::HttpResponse.new(result.failure)
+                routing.halt failed.http_status_code, failed.to_json
+              end
 
-          #   routing.redirect '/'
-          # end
-
-          routing.get do
-            # 傳入session[:watching]的紀錄和當前查詢的內容至Service
-            session[:watching] ||= []
-
-            result = Service::RiskStock.new.call(
-                watched_list: session[:watching],
-                requested: qry
-                )
-            
-            if result.failure?
-              flash[:error] = result.failure
-              routing.redirect '/'
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
+              Representer::StocksList.new(result.value!.message).to_json
             end
-            
-            stock = result.value!
-            stock_trend = Views::MainPageInfo.new(stock[:data_record], stock[:risk])
-            view 'Gtrend', locals: { stock_trend: }
           end
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end

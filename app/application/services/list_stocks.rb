@@ -4,15 +4,33 @@ module GoogleTrend
   module Service
     # Retrieves array of all listed project entities
     class ListStocks
-      include Dry::Monads::Result::Mixin
+      include Dry::Transaction
 
-      def call(stocks_list)
-        stocks = Repository::For.klass(Entity::RgtEntity)
-          .find_stock_names(stocks_list)
+      step :validate_list
+      step :retrieve_projects
 
-        Success(stocks)
+      private
+
+      DB_ERR = 'Cannot access database'
+
+      def validate_list(input)    
+        list_request = input[:list_request].call
+        if list_request.success?
+          Success(input.merge(list: list_request.value!))
+        else
+          Failure(list_request.failure)
+        end
+      end
+
+      def retrieve_projects(input)
+        Repository::For.klass(Entity::RgtEntity).find_stock_names(input[:list])
+          .then { |stocks| Response::StocksList.new(stocks) }
+          .then { |list| Response::ApiResult.new(status: :ok, message: list) }
+          .then { |result| Success(result) }
       rescue StandardError
-        Failure('Could not access database')
+        Failure(
+          Response::ApiResult.new(status: :internal_error, message: DB_ERR)
+        )
       end
     end
   end

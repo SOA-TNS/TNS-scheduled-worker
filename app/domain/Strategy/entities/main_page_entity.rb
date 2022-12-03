@@ -11,9 +11,11 @@ module GoogleTrend
       attribute :query,     Strict::String
       attribute :risk,      Strict::String
       attribute :interest_over_time, Strict::String
+
       def to_attr_hash
         to_hash.except(:id)
       end
+      
     end
   end
 end

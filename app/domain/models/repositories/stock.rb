@@ -18,7 +18,7 @@ module GoogleTrend
       end
 
       def self.find_stock_names(stock_names)
-        stock_names.map do |query|
+        stock_names["list"].map do |query|
           find_stock_name(query)
         end.compact
       end
