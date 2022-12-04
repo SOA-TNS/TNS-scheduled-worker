@@ -24,7 +24,7 @@ module GoogleTrend
         end
         Success(input)
       rescue StandardError => e
-        Failure(Response::ApiResult.new(status: :not_found, message: error.to_s))
+        Failure(Response::ApiResult.new(status: :not_found, message: e.to_s))
       end
 
       def store_stock(input)

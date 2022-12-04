@@ -18,7 +18,7 @@ module GoogleTrend
 
       # GET /
       routing.root do
-        message = "CodePraise API v1 at GoogleTrend in #{App.environment} mode"
+        message = "Google Trend API v1 at GoogleTrend in #{App.environment} mode"
 
         result_response = Representer::HttpResponse.new(
           Response::ApiResult.new(status: :ok, message: message)
@@ -49,18 +49,17 @@ module GoogleTrend
 
             # POST /projects/{owner_name}/{project_name}
             routing.post do
-
-              
-              result = Service::AddStock.new.call(routing.params)
+              input = Hash["rgt_url" =>qry]
+              result = Service::AddStock.new.call(input)
 
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
                 routing.halt failed.http_status_code, failed.to_json
               end
 
-              # http_response = Representer::HttpResponse.new(result.value!)
-              # response.status = http_response.http_status_code
-              # Representer::RgtRepresenter.new(result.value!.message).to_json
+              http_response = Representer::HttpResponse.new(result.value!)
+              response.status = http_response.http_status_code
+              Representer::RgtRepresenter.new(result.value!.message).to_json
             end
           end
 
@@ -70,7 +69,7 @@ module GoogleTrend
               
               list_req = Request::StockList.new(routing.params)
               result = Service::ListStocks.new.call(list_request: list_req)
-              puts(result)
+
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)
                 routing.halt failed.http_status_code, failed.to_json
