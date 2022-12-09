@@ -6,7 +6,7 @@ module GoogleTrend
   # Web App
   class App < Roda
     plugin :halt
-    plugin :flash
+    plugin :caching
     plugin :all_verbs # allows DELETE and other HTTP verbs beyond GET/POST
     plugin :common_logger, $stderr
 
@@ -21,7 +21,7 @@ module GoogleTrend
         message = "Google Trend API v1 at GoogleTrend in #{App.environment} mode"
 
         result_response = Representer::HttpResponse.new(
-          Response::ApiResult.new(status: :ok, message: message)
+          Response::ApiResult.new(status: :ok, message:)
         )
 
         response.status = result_response.http_status_code
@@ -32,6 +32,7 @@ module GoogleTrend
         routing.on 'Gtrend' do
           routing.on String do |qry|
             routing.get do
+              response.cache_control public: true, max_age: 300
               
               result = Service::RiskStock.new.call(requested: qry)
              
