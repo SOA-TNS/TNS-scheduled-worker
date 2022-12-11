@@ -47,3 +47,4 @@ describe 'Tests TWSE API library' do
   end
   # end
 end
+
