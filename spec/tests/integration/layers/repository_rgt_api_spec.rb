@@ -29,3 +29,4 @@ describe 'Integration Tests of Google Trend API and Database' do
     end
   end
 end
+
