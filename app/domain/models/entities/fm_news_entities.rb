@@ -9,8 +9,8 @@ module GoogleTrend
       include Dry.Types
 
       attribute :id, Integer.optional
-      attribute :date, Strict::String
       attribute :stock_name, Strict::String
+      attribute :date, Strict::String
       attribute :link, Strict::String
       attribute :source, Strict::String
       attribute :title, Strict::String

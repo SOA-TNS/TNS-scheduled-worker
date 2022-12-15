@@ -4,14 +4,10 @@ require 'sequel'
 
 Sequel.migration do
   change do
-    create_table(:gtvalues) do
+    create_table(:fmvalues) do
       primary_key :id
-      foreign_key :query_id, :stock
 
-      String      :query
-      String      :time_series
-      DateTime    :date
-
+      String :stock_name
       DateTime :created_at
       DateTime :updated_at
     end

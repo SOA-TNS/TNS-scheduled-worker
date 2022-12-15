@@ -4,11 +4,11 @@ require 'sequel'
 
 Sequel.migration do
   change do
-    create_table(:stock) do
+    create_table(:gtvalues) do
       primary_key :id
 
-      String :query
-      Array :time_series
+      String      :query
+      String      :time_series
 
       DateTime :created_at
       DateTime :updated_at

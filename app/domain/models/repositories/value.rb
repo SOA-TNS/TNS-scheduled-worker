@@ -3,14 +3,14 @@
 module GoogleTrend
   module Repository
     # Repository for Project Entities
-    class Stock
+    class Value
       # return an array
       def self.all
-        Database::ValueOrm.all.map { |db_stock| rebuild_entity(db_stock) }
+        Database::GtValueOrm.all.map { |db_stock| rebuild_entity(db_stock) }
       end
 
       def self.find_stock_name(stock_name)
-        db_stock = Database::ValueOrm
+        db_stock = Database::GtValueOrm
           .where(query: stock_name)
           .first
 
@@ -24,17 +24,17 @@ module GoogleTrend
       end
 
       def self.find_id(id)
-        db_record = Database::ValueOrm.first(id:)
+        db_record = Database::GtValueOrm.first(id:)
         rebuild_entity(db_record)
       end
 
       def self.create(entity)
-        db_stock = Database::ValueOrm.create(entity.to_attr_hash)
+        db_stock = Database::GtValueOrm.create(entity.to_attr_hash)
         rebuild_entity(db_stock)
       end
 
       def self.update(entity)
-        db_stock = Database::ValueOrm.update(entity.to_attr_hash)
+        db_stock = Database::GtValueOrm.update(entity.to_attr_hash)
         rebuild_entity(db_stock)
       end
 
