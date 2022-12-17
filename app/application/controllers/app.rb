@@ -32,7 +32,9 @@ module GoogleTrend
         routing.on 'Gtrend' do
           routing.on String do |qry|
             routing.get do
-              response.cache_control public: true, max_age: 300
+              App.configure :production do
+                response.cache_control public: true, max_age: 300
+              end
               
               result = Service::RiskStock.new.call(requested: qry)
              
