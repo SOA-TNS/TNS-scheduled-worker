@@ -8,17 +8,24 @@ module GoogleTrend
     class RiskStock
       include Dry::Transaction
 
-      step :retrieve_stock
+
+      step :find_stock_details
+      
+      step :check_project_eligibility
+      step :request_cloning_worker
+
       step :appraise_risk
 
       private
 
       NO_STOCK_ERR = 'Stock not found'
       DB_ERR = 'Having trouble accessing the database'
+      SIZE_ERR = 'Project too large to analyze'
+      PROCESSING_MSG = 'Processing the summary request'
 
       # Steps
 
-      def retrieve_stock(input) 
+      def find_stock_details(input) 
         input[:data_record] = Repository::For.klass(Entity::RgtEntity).find_stock_name(input[:requested])
         input[:data_record] ? Success(input) : Failure(Response::ApiResult.new(status: :not_found, message: NO_STOCK_ERR))
       rescue StandardError
