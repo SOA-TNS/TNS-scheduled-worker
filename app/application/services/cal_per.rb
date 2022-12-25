@@ -2,14 +2,14 @@
 
 require 'dry/transaction'
 
-module GoogleTrend
+module Finmind
   module Service
     # Analyzes contributions to a project
-    class RiskStock
+    class CalPer
       include Dry::Transaction
 
       step :find_stock_details
-      step :appraise_risk
+      step :cal_per
 
       private
 
@@ -21,20 +21,21 @@ module GoogleTrend
       # Steps
 
       def find_stock_details(input) 
-        input[:data_record] = Repository::For.klass(Entity::RgtEntity).find_stock_name(input[:requested])
+        input[:data_record] = Repository::For.klass(Entity::FmPerEntity).find_stock_name(input[:requested])
         input[:data_record] ? Success(input) : Failure(Response::ApiResult.new(status: :not_found, message: NO_STOCK_ERR))
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR))
       end
 
-      def appraise_risk(input)
-        input[:risk] = Mapper::DataPreprocessing.new(input[:data_record]).to_entity
-        main_info = Response::StockInfo.new(input[:data_record], input[:risk])
+      def cal_per(input)
+        input[:avg_per] = Mapper::FmDataPreprocessing.new(input[:data_record]).to_entity
+        main_info = Response::FmPerInfo.new(input[:data_record], input[:avg_per])
         Success(Response::ApiResult.new(status: :ok, message: main_info))
       rescue StandardError
         App.logger.error "Could not find: #{input[:requested]}"
         Failure(Response::ApiResult.new(status: :not_found, message: NO_STOCK_ERR))
       end
+
     end
   end
 end

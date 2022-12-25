@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'roda'
+require "cgi"
 
 module GoogleTrend
   # Web App
@@ -53,6 +54,8 @@ module GoogleTrend
             # POST /projects/{owner_name}/{project_name}
             routing.post do
               input = Hash["rgt_url" =>qry]
+
+              # 這是googleTrend的按鈕要做的事
               result = Service::AddStock.new.call(input)
 
               if result.failure?
@@ -63,6 +66,62 @@ module GoogleTrend
               http_response = Representer::HttpResponse.new(result.value!)
               response.status = http_response.http_status_code
               Representer::RgtRepresenter.new(result.value!.message).to_json
+
+              # input = Hash["rgt_url" =>GoogleTrend::Value::StockOverview.new(CGI.unescape(qry)).stock_overview] 
+              # result = Service::FmPer.new.call(input)
+
+              # if result.failure?
+              #   failed = Representer::HttpResponse.new(result.failure)
+              #   routing.halt failed.http_status_code, failed.to_json
+              # end
+
+              # http_response = Representer::HttpResponse.new(result.value!)
+              # response.status = http_response.http_status_code
+              # Representer::RgtRepresenter.new(result.value!.message).to_json
+
+
+              # input = Hash["rgt_url" =>GoogleTrend::Value::StockOverview.new(CGI.unescape(qry)).stock_overview] 
+              # result = Service::FmFear.new.call(input)
+
+              # if result.failure?
+              #   failed = Representer::HttpResponse.new(result.failure)
+              #   routing.halt failed.http_status_code, failed.to_json
+              # end
+
+              # http_response = Representer::HttpResponse.new(result.value!)
+              # response.status = http_response.http_status_code
+              # Representer::RgtRepresenter.new(result.value!.message).to_json
+
+
+              # input = Hash["rgt_url" =>GoogleTrend::Value::StockOverview.new(CGI.unescape(qry)).stock_overview] 
+              # result = Service::FmNews.new.call(input)
+              
+              # puts("result")
+              # puts(result)
+
+              # if result.failure?
+              #   failed = Representer::HttpResponse.new(result.failure)
+              #   routing.halt failed.http_status_code, failed.to_json
+              # end
+
+              # http_response = Representer::HttpResponse.new(result.value!)
+              # response.status = http_response.http_status_code
+              # Representer::RgtRepresenter.new(result.value!.message).to_json
+
+
+
+              # input = Hash["rgt_url" =>GoogleTrend::Value::StockOverview.new(CGI.unescape(qry)).stock_overview] 
+              # result = Service::FmBuySell.new.call(input)
+
+              # if result.failure?
+              #   failed = Representer::HttpResponse.new(result.failure)
+              #   routing.halt failed.http_status_code, failed.to_json
+              # end
+
+              # http_response = Representer::HttpResponse.new(result.value!)
+              # response.status = http_response.http_status_code
+              # Representer::RgtRepresenter.new(result.value!.message).to_json
+
             end
           end
 
