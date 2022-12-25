@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../../models/mappers/stock_per_mapper'
-require_relative '../../models/mappers/Stock_InstitutionalInvestorsBuySell_Mapper'
+require_relative '../../models/mappers/fm_per_mapper'
+require_relative '../../models/mappers/fmBuySell_mappers'
 require_relative '../../models/entities/fm_per_entities'
 require_relative '../../models/entities/fm_buysell_entities'
 require_relative '../values/fm_per_strategy'

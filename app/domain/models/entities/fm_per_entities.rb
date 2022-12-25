@@ -5,7 +5,7 @@ require 'dry-struct'
 
 module GoogleTrend
   module Entity
-    class StockPerEntity < Dry::Struct
+    class FmPerEntity < Dry::Struct
       include Dry.Types
 
       attribute :id, Integer.optional

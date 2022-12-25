@@ -5,7 +5,7 @@ require 'dry-struct'
 
 module GoogleTrend
   module Entity
-    class StoctNewsEntity < Dry::Struct
+    class FmNewsEntity < Dry::Struct
       include Dry.Types
 
       attribute :id, Integer.optional
