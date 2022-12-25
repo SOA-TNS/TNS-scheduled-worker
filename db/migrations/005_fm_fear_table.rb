@@ -9,7 +9,7 @@ Sequel.migration do
 
       String      :time
       String      :fear_greed
-      DateTime    :fear_greed_emotion
+      String      :fear_greed_emotion
 
       DateTime :created_at
       DateTime :updated_at

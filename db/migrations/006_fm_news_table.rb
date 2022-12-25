@@ -6,7 +6,10 @@ Sequel.migration do
   change do
     create_table(:fm_news) do
       primary_key :id
-      foreign_key :fmvalues_id, :fmvalues
+      # foreign_key :stock_name, :fmvalues
+
+
+      String      :stock_name
 
       String      :date
       String      :link

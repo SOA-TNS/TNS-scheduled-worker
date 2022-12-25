@@ -6,11 +6,13 @@ Sequel.migration do
   change do
     create_table(:fm_buysell) do
       primary_key :id
-      foreign_key :fmvalues_id, :fmvalues
+      # foreign_key :stock_name, :fmvalues
 
+
+      String      :stock_name
       String      :name
       String      :buy
-      DateTime    :sell
+      String      :sell
 
       DateTime :created_at
       DateTime :updated_at

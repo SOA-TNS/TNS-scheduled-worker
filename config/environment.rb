@@ -2,8 +2,8 @@
 
 require 'figaro'
 require 'logger'
+require 'rack/session'
 require 'roda'
-
 require 'sequel'
 require 'rack/cache'
 require 'redis-rack-cache'
@@ -29,6 +29,7 @@ module GoogleTrend
     end
 
     configure :production do
+      puts 'RUNNING IN PRODUCTION MODE'
       use Rack::Cache,
           verbose: true,
           metastore: "#{config.REDISCLOUD_URL}/0/metastore",

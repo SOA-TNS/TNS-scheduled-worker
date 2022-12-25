@@ -6,8 +6,10 @@ Sequel.migration do
   change do
     create_table(:fm_per) do
       primary_key :id
-      foreign_key :fmvalues_id, :fmvalues
+      # foreign_key :stock_name, :fmvalues
 
+
+      String      :stock_name
       String      :time
       String      :div_yield
       String      :per
