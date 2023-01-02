@@ -38,6 +38,14 @@ module GoogleTrend
               end
               
               result = Service::RiskStock.new.call(requested: qry)
+
+
+              # request_id = [request.env, request.path, Time.now.to_f].hash
+              # result = Service::CalPer.new.call(
+              #   requested: qry
+              #   request_id: request_id,
+              #   config: App.config
+              # )
              
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)

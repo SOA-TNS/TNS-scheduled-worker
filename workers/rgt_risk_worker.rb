@@ -8,7 +8,7 @@ require_app
 require 'figaro'
 require 'shoryuken'
 
-module FmPer
+module RgtRisk
   # Shoryuken worker class to clone repos in parallel
   class Worker
     # Environment variables setup
@@ -44,10 +44,10 @@ module FmPer
       # # Keep sending finished status to any latecoming subscribers
       # job.report_each_second(5) { FmMonitor.finished_percent }
 
-      stock = GoogleTrend::Representer::FmPerRepresenter
+      stock = GoogleTrend::Representer::MainRepresenter
       .new(OpenStruct.new).from_json(request)
 
-      new_stock = GoogleTrend::Gt::FmPerMapper.new(stock).find
+      new_stock = GoogleTrend::Gt::TrendMapper.new(stock, App.config.RGT_TOKEN).find
       GoogleTrend::Repository::For.entity(new_stock).create(new_stock)
     rescue StandardError => e
       puts e.backtrace.join("\n")

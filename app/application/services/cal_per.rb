@@ -9,6 +9,7 @@ module Finmind
       include Dry::Transaction
 
       step :find_stock_details
+      step :stock_from_fmPer
       step :cal_per
 
       private
@@ -22,9 +23,26 @@ module Finmind
 
       def find_stock_details(input) 
         input[:data_record] = Repository::For.klass(Entity::FmPerEntity).find_stock_name(input[:requested])
-        input[:data_record] ? Success(input) : Failure(Response::ApiResult.new(status: :not_found, message: NO_STOCK_ERR))
+        Success(input) 
       rescue StandardError
         Failure(Response::ApiResult.new(status: :internal_error, message: DB_ERR))
+      end
+
+      def stock_from_fmPer(input)
+        return Success(input) if input[:data_record]
+
+        Messaging::Queue.new(App.config.FM_QUEUE_URL, App.config)
+        # .send(fm_request_json(input))
+        .send(Representer::FmPerRepresenter.new(input[:project]).to_json)
+        
+
+        Failure(Response::ApiResult.new(
+          status: :processing,
+          message: { request_id: input[:request_id], msg: PROCESSING_MSG }
+        ))
+
+      rescue StandardError
+        raise GH_NOT_FOUND_MSG
       end
 
       def cal_per(input)
@@ -36,6 +54,12 @@ module Finmind
         Failure(Response::ApiResult.new(status: :not_found, message: NO_STOCK_ERR))
       end
 
+
+      # def fm_request_json(input)
+      #   Response::FmPerInfo.new(input[:data_record], input[:request_id])
+      #   .then { Representer::CloneRequest.new(_1) }
+      #   .then(&:to_json)
+      # end
     end
   end
 end
