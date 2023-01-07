@@ -6,6 +6,8 @@ ruby File.read('.ruby_version').strip
 # Requirement of GoogleTrend
 gem 'google_search_results'
 
+gem 'nokogiri'
+
 # CONFIGURATION
 gem 'figaro', '~> 1.2'
 gem 'rack-test' # for testing and can also be used to diagnose in production
