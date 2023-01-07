@@ -7,6 +7,10 @@ ruby File.read('.ruby_version').strip
 gem 'google_search_results'
 
 gem 'nokogiri'
+gem 'ox'
+gem 'oga'
+gem 'rexml'
+
 
 # CONFIGURATION
 gem 'figaro', '~> 1.2'
