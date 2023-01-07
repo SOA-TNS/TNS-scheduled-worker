@@ -8,6 +8,7 @@ require_app
 require 'figaro'
 require 'shoryuken'
 
+module GoogleTrend
 module RgtRisk
   # Shoryuken worker class to clone repos in parallel
   class Worker

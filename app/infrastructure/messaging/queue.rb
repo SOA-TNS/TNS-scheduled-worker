@@ -14,7 +14,7 @@ module GoogleTrend
         sqs = Aws::SQS::Client.new(
           access_key_id: config.AWS_ACCESS_KEY_ID,
           secret_access_key: config.AWS_SECRET_ACCESS_KEY,
-          region: "us-east-1"
+          region: config.AWS_REGION
         )
         @queue = Aws::SQS::Queue.new(url: queue_url, client: sqs)
       end
