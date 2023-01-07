@@ -6,7 +6,7 @@ require 'roar/json'
 module Finmind
   module Representer
     # Represents a CreditShare value
-    class RgtRepresenter < Roar::Decorator
+    class FmNewsRepresenter < Roar::Decorator
       include Roar::JSON
 
       property :date

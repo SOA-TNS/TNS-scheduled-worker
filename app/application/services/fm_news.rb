@@ -43,7 +43,6 @@ module GoogleTrend
       # following are support methods that other services could use
 
       def stock_from_FmNews(input)
-        
         GoogleTrend::Gt::FmNewsMapper.new(input["rgt_url"]).find
       rescue StandardError
         raise GH_NOT_FOUND_MSG

@@ -3,7 +3,7 @@
 module GoogleTrend
   module Gt
     class TrendMapper
-      def initialize(name, api_key, gateway_class = Gt::RgtApi)
+      def initialize(name, api_key, gateway_class = GoogleTrend::Gt::RgtApi)
         @api_key = api_key
         @name = name
         @gateway_class = gateway_class

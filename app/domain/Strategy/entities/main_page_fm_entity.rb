@@ -11,6 +11,8 @@ module GoogleTrend
       attribute :avg_per, Strict::String
       attribute :avg_dividend_yield, Strict::String
       attribute :net_buy_probability, Strict::String
+      attribute :fear_value, Strict::String
+      attribute :fear_greed_index, Strict::String
 
       def to_attr_hash
         to_hash.except(:id)

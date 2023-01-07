@@ -9,7 +9,7 @@ module GoogleTrend
       include Dry.Types
 
       attribute :id, Integer.optional
-      attribute :time, Strict::String
+      attribute :time, Strict::String.optional
       attribute :fear_greed, Strict::String
       attribute :fear_greed_emotion, Strict::String
 

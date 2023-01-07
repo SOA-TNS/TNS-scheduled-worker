@@ -35,7 +35,6 @@ module GoogleTrend
 
         def get(url)
           http_response = HTTP.get(url)
-
           Response.new(http_response).tap do |response|
             raise(response.error) unless response.successful?
           end

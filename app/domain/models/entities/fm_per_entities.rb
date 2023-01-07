@@ -9,11 +9,11 @@ module GoogleTrend
       include Dry.Types
 
       attribute :id, Integer.optional
-      attribute :stock_name, Strict::String
-      attribute :time, Strict::String
-      attribute :div_yield, Strict::String
-      attribute :per, Strict::String
-      attribute :pbr, Strict::String
+      attribute :stock_name, Strict::String.optional
+      attribute :time, Strict::String.optional
+      attribute :div_yield, Strict::String.optional
+      attribute :per, Strict::String.optional
+      attribute :pbr, Strict::String.optional
 
       def to_attr_hash
         to_hash.except(:id)

@@ -146,7 +146,7 @@ GEM
     public_suffix (5.0.1)
     puma (6.0.1)
       nio4r (~> 2.0)
-    rack (3.0.2)
+    rack (3.0.3)
     rack-cache (1.13.0)
       rack (>= 0.4)
     rack-session (0.3.0)
