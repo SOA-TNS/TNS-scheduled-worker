@@ -9,6 +9,7 @@ require 'rack/cache'
 require 'redis-rack-cache'
 
 module GoogleTrend
+  # Environment-specific configuration
   class App < Roda
     plugin :environments
 
@@ -19,7 +20,7 @@ module GoogleTrend
     )
     Figaro.load
     def self.config = Figaro.env
-    
+
     # Setup Cacheing mechanism
     configure :development do
       use Rack::Cache,
@@ -30,6 +31,8 @@ module GoogleTrend
 
     configure :production do
       puts 'RUNNING IN PRODUCTION MODE'
+      # Set DATABASE_URL environment variable on production platform
+
       use Rack::Cache,
           verbose: true,
           metastore: "#{config.REDISCLOUD_URL}/0/metastore",
@@ -40,11 +43,11 @@ module GoogleTrend
     configure :app_test do
       require_relative '../spec/helpers/vcr_helper'
       VcrHelper.setup_vcr
-      VcrHelper.configure_vcr_for_google_trend
+      VcrHelper.configure_vcr_for_github(recording: :none)
     end
 
     # Database Setup (ensure DATABASE_URL already configured on production)
-    configure :development, :test , :app_test do
+    configure :development, :test, :app_test do
       require 'pry'; # for breakpoints
       ENV['DATABASE_URL'] = "sqlite://#{config.DB_FILENAME}"
     end
