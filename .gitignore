@@ -1,8 +1,2 @@
-.bundle/
 config/secrets.yml
-coverage/*
-!coverage/.resultset.json
-*.db
-repostore/
-_snippets/
-_cache/
+.rake_tasks~

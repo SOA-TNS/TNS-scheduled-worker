@@ -1,258 +1,100 @@
 # frozen_string_literal: true
 
-require 'rake/testtask'
-require_relative 'require_app'
-
-task :default do
-  puts `rake -T`
-end
-
-desc 'Run unit and integration tests'
-Rake::TestTask.new(:spec) do |t|
-  t.pattern = 'spec/tests/**/*_spec.rb'
-  t.warning = false
-end
-
-desc 'Keep rerunning unit/integration tests upon changes'
-task :respec do
-  sh "rerun -c 'rake spec' --ignore 'coverage/*' --ignore 'repostore/*'"
-end
-
-namespace :run do
-  desc 'Run API in dev mode'
-  task :dev do
-    sh "bundle exec puma -p 9090"
-  end
-
-  desc 'Run API in test mode'
-  task :test do
-    sh 'RACK_ENV=test bundle exec puma -p 9090'
-  end
-end
-
-desc 'Keep restarting web app in dev mode upon changes'
-task :rerun do
-  sh "rerun -c --ignore 'coverage/*' --ignore 'repostore/*' -- bundle exec puma -p 9090"
-end
-
-namespace :run do
-  desc 'Run API in dev mode'
-  task :dev do
-    sh 'puma config.ru -p 9090'
-  end
-
-  desc 'Run API in test mode'
-  task :test do
-    sh 'RACK_ENV=test puma config.ru -p 9090'
-  end
-end
-
-namespace :db do
-  task :config do
-    require 'sequel'
-    require_relative 'config/environment' # load config info
-    require_relative 'spec/helpers/database_helper'
-
-    def app = GoogleTrend::App
-  end
-
-  desc 'Run migrations'
-  task :migrate => :config do
-    Sequel.extension :migration
-    puts "Migrating #{app.environment} database to latest"
-    Sequel::Migrator.run(app.DB, 'db/migrations')
-  end
-
-  desc 'Wipe records from all tables'
-  task :wipe => :config do
-    # if app.environment == :production
-    #   puts 'Do not damage production database!'
-    #   return
-    # end
-
-    require_app('infrastructure')
-    require_relative 'spec/helpers/database_helper'
-    DatabaseHelper.wipe_database
-  end
-
-  desc 'Delete dev or test database file (set correct RACK_ENV)'
-  task :drop => :config do
-    # if app.environment == :production
-    #   puts 'Do not damage production database!'
-    #   return
-    # end
-
-    FileUtils.rm(app.config.DB_FILENAME)
-    puts "Deleted #{app.config.DB_FILENAME}"
-  end
-end
-
-namespace :repos do
-  task :config do
-    require_relative 'config/environment' # load config info
-    def app = GoogleTrend::App
-  end
-
-  desc 'Create director for repo store'
-  task :create => :config do
-    puts `mkdir #{app.config.REPOSTORE_PATH}`
-  end
-
-  desc 'Delete cloned repos in repo store'
-  task :wipe => :config do
-    sh "rm -rf #{app.config.REPOSTORE_PATH}/*" do |ok, _|
-      puts(ok ? 'Cloned repos deleted' : 'Could not delete cloned repos')
-    end
-  end
-
-  desc 'List cloned repos in repo store'
-  task :list => :config do
-    puts `ls #{app.config.REPOSTORE_PATH}`
-  end
-end
-
-namespace :cache do
-  task :config do
-    require_relative 'config/environment' # load config info
-    require_relative 'app/infrastructure/cache/*'
-    @api = GoogleTrend::App
-  end
-
-  desc 'Directory listing of local dev cache'
-  namespace :list do
-    task :dev do
-      puts 'Lists development cache'
-      list = `ls _cache/rack/meta`
-      puts 'No local cache found' if list.empty?
-      puts list
-    end
-
-    desc 'Lists production cache'
-    task :production => :config do
-      puts 'Finding production cache'
-      keys = GoogleTrend::Cache::Client.new(@api.config).keys
-      puts 'No keys found' if keys.none?
-      keys.each { |key| puts "Key: #{key}" }
-    end
-  end
-
-  namespace :wipe do
-    desc 'Delete development cache'
-    task :dev do
-      puts 'Deleting development cache'
-      sh 'rm -rf _cache/*'
-    end
-
-    desc 'Delete production cache'
-    task :production => :config do
-      print 'Are you sure you wish to wipe the production cache? (y/n) '
-      if $stdin.gets.chomp.downcase == 'y'
-        puts 'Deleting production cache'
-        wiped = GoogleTrend::Cache::Client.new(@api.config).wipe
-        wiped.each_key { |key| puts "Wiped: #{key}" }
-      end
-    end
-  end
-end
-
-namespace :queues do
-  task :config do
-    require 'aws-sdk-sqs'
-    require_relative 'config/environment' # load config info
-    @api = GoogleTrend::App
-    @sqs = Aws::SQS::Client.new(
-      access_key_id: @api.config.AWS_ACCESS_KEY_ID,
-      secret_access_key: @api.config.AWS_SECRET_ACCESS_KEY,
-      region: @api.config.AWS_REGION
-    )
-    @q_name = @api.config.FM_QUEUE
-    @q_url = @sqs.get_queue_url(queue_name: @q_name).queue_url
-
-    puts "Environment: #{@api.environment}"
-  end
-
-  desc 'Create SQS queue for worker'
-  task :create => :config do
-    @sqs.create_queue(queue_name: @q_name)
-
-    puts 'Queue created:'
-    puts "  Name: #{@q_name}"
-    puts "  Region: #{@api.config.AWS_REGION}"
-    puts "  URL: #{@q_url}"
-  rescue StandardError => e
-    puts "Error creating queue: #{e}"
-  end
-
-  desc 'Report status of queue for worker'
-  task :status => :config do
-    puts 'Queue info:'
-    puts "  Name: #{@q_name}"
-    puts "  Region: #{@api.config.AWS_REGION}"
-    puts "  URL: #{@q_url}"
-  rescue StandardError => e
-    puts "Error finding queue: #{e}"
-  end
-
-  desc 'Purge messages in SQS queue for worker'
-  task :purge => :config do
-    @sqs.purge_queue(queue_url: @q_url)
-    puts "Queue #{@q_name} purged"
-  rescue StandardError => e
-    puts "Error purging queue: #{e}"
-  end
-end
-
-namespace :worker do
-  namespace :run do
-    desc 'Run the background cloning worker in development mode'
-    task :dev => :config do
-      sh 'RACK_ENV=development bundle exec shoryuken -r ./workers/rgt_risk_worker.rb -C ./workers/shoryuken_dev.yml'
-    end
-
-    desc 'Run the background cloning worker in testing mode'
-    task :test => :config do
-      sh 'RACK_ENV=test bundle exec shoryuken -r ./workers/rgt_risk_worker.rb -C ./workers/shoryuken_test.yml'
-    end
-
-    desc 'Run the background cloning worker in production mode'
-    task :production => :config do
-      sh 'RACK_ENV=production bundle exec shoryuken -r ./workers/rgt_risk_worker.rb -C ./workers/shoryuken.yml'
-    end
-  end
-end
-
-desc 'Run application console'
+desc 'Run application console (pry)'
 task :console do
-  sh 'pry -r ./load_all'
+  sh 'pry -r ./init.rb'
 end
 
-namespace :vcr do
-  desc 'delete cassette fixtures'
-  task :wipe do
-    sh 'rm spec/fixtures/cassettes/*.yml' do |ok, _|
-      puts(ok ? 'Cassettes deleted' : 'No cassettes found')
-    end
+USERNAME = 'TNS'
+IMAGE = 'GoogleTrend-rgt-risk-worker'
+VERSION = '0.1.0'
+
+desc 'Build Docker image'
+task :worker do
+  require_relative './init'
+  GoogleTrend::Worker.new.call
+end
+
+# Docker tasks
+namespace :docker do
+  desc 'Build Docker image'
+  task :build do
+    puts "\nBUILDING WORKER IMAGE"
+    sh "docker build --force-rm -t #{USERNAME}/#{IMAGE}:#{VERSION} ."
+  end
+
+  desc 'Run the local Docker container as a worker'
+  task :run do
+    env = ENV['WORKER_ENV'] || 'development'
+
+    puts "\nRUNNING WORKER WITH LOCAL CONTEXT"
+    puts " Running in #{env} mode"
+
+    sh 'docker run -e WORKER_ENV -v $(pwd)/config:/worker/config --rm -it ' \
+       "#{USERNAME}/#{IMAGE}:#{VERSION}"
+  end
+
+  desc 'Remove exited containers'
+  task :rm do
+    sh 'docker rm -v $(docker ps -a -q -f status=exited)'
+  end
+
+  desc 'List all containers, running and exited'
+  task :ps do
+    sh 'docker ps -a'
   end
 end
 
-namespace :quality do
-  only_app = 'config/ app/'
-
-  desc 'run all static-analysis quality checks'
-  task all: %i[rubocop reek flog]
-
-  desc 'code style linter'
-  task :rubocop do
-    sh 'rubocop'
+# Heroku container registry tasks
+namespace :heroku do
+  desc 'Build and Push Docker image to Heroku Container Registry'
+  task :push do
+    puts "\nBUILDING + PUSHING IMAGE TO HEROKU"
+    sh 'heroku container:push worker'
   end
 
-  desc 'code smell detector'
-  task :reek do
-    sh "reek #{only_app}"
+  desc 'Run worker on Heroku'
+  task :run do
+    puts "\nRUNNING CONTAINER ON HEROKU"
+    sh 'heroku run rake worker'
+  end
+end
+
+namespace :queue do
+  task :config do
+    require_relative 'config/environment.rb' # load config info
+    require 'aws-sdk-sqs'
+    @worker = GoogleTrend::Worker
+    @config = @worker.config
+
+    @sqs = Aws::SQS::Client.new(
+      access_key_id: @config.AWS_ACCESS_KEY_ID,
+      secret_access_key: @config.AWS_SECRET_ACCESS_KEY,
+      region: @config.AWS_REGION
+    )
   end
 
-  desc 'complexiy analysis'
-  task :flog do
-    sh "flog -m #{only_app}"
+  desc 'Create SQS queue for Shoryuken'
+  task :create => :config do
+    puts "Environment: #{ENV['WORKER_ENV'] || 'development'}"
+    @sqs.create_queue(queue_name: @config.REPORT_QUEUE)
+
+    q_url = @sqs.get_queue_url(queue_name: @config.REPORT_QUEUE).queue_url
+    puts 'Queue created:'
+    puts "  Name: #{@config.REPORT_QUEUE}"
+    puts "  Region: #{@config.AWS_REGION}"
+    puts "  URL: #{q_url}"
+  rescue StandardError => error
+    puts "Error creating queue: #{error}"
+    puts error.backtrace
+  end
+
+  desc 'Purge messages in SQS queue for Shoryuken'
+  task :purge => :config do
+    q_url = @sqs.get_queue_url(queue_name: @config.REPORT_QUEUE).queue_url
+    @sqs.purge_queue(queue_url: q_url)
+    puts "Queue #{queue_name} purged"
+  rescue StandardError => error
+    puts "Error purging queue: #{error}"
   end
 end
