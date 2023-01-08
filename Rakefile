@@ -161,6 +161,7 @@ namespace :queues do
     require_relative 'config/environment' # load config info
     @api = GoogleTrend::App
     puts("@api.config")
+    puts(@api.config.AWS_ACCESS_KEY_ID)
     puts(@api.config.AWS_SECRET_ACCESS_KEY)
     @sqs = Aws::SQS::Client.new(
       access_key_id: @api.config.AWS_ACCESS_KEY_ID,
