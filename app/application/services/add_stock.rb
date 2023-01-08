@@ -50,7 +50,7 @@ module GoogleTrend
 
       def stock_in_database(input)
         Repository::For.klass(Entity::RgtEntity)
-        .find_stock_name(input["rgt_url"])
+        .find_stock_name(CGI.unescape(input["rgt_url"]))
       end
     end
   end

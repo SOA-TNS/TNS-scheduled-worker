@@ -33,7 +33,7 @@ module GoogleTrend
         routing.on 'Gtrend' do
           routing.on String do |qry|
             routing.post do
-              input = Hash["rgt_url" =>CGI.unescape(qry)]
+              input = Hash["rgt_url" =>qry]
               result = Service::AddStock.new.call(input)
               if result.failure?
                 failed = Representer::HttpResponse.new(result.failure)

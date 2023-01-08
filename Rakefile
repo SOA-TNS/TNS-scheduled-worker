@@ -65,10 +65,10 @@ namespace :db do
 
   desc 'Wipe records from all tables'
   task :wipe => :config do
-    # if app.environment == :production
-    #   puts 'Do not damage production database!'
-    #   return
-    # end
+    if app.environment == :production
+      puts 'Do not damage production database!'
+      return
+    end
 
     require_app('infrastructure')
     require_relative 'spec/helpers/database_helper'
