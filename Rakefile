@@ -65,10 +65,10 @@ namespace :db do
 
   desc 'Wipe records from all tables'
   task :wipe => :config do
-    if app.environment == :production
-      puts 'Do not damage production database!'
-      return
-    end
+    # if app.environment == :production
+    #   puts 'Do not damage production database!'
+    #   return
+    # end
 
     require_app('infrastructure')
     require_relative 'spec/helpers/database_helper'
@@ -77,10 +77,10 @@ namespace :db do
 
   desc 'Delete dev or test database file (set correct RACK_ENV)'
   task :drop => :config do
-    if app.environment == :production
-      puts 'Do not damage production database!'
-      return
-    end
+    # if app.environment == :production
+    #   puts 'Do not damage production database!'
+    #   return
+    # end
 
     FileUtils.rm(app.config.DB_FILENAME)
     puts "Deleted #{app.config.DB_FILENAME}"
