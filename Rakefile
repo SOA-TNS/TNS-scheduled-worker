@@ -65,10 +65,10 @@ namespace :db do
 
   desc 'Wipe records from all tables'
   task :wipe => :config do
-    if app.environment == :production
-      puts 'Do not damage production database!'
-      return
-    end
+    # if app.environment == :production
+    #   puts 'Do not damage production database!'
+    #   return
+    # end
 
     require_app('infrastructure')
     require_relative 'spec/helpers/database_helper'
@@ -160,9 +160,6 @@ namespace :queues do
     require 'aws-sdk-sqs'
     require_relative 'config/environment' # load config info
     @api = GoogleTrend::App
-    puts("@api.config")
-    puts(@api.config.AWS_ACCESS_KEY_ID)
-    puts(@api.config.AWS_SECRET_ACCESS_KEY)
     @sqs = Aws::SQS::Client.new(
       access_key_id: @api.config.AWS_ACCESS_KEY_ID,
       secret_access_key: @api.config.AWS_SECRET_ACCESS_KEY,
